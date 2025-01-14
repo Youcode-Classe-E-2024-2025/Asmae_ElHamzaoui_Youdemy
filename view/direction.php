@@ -49,8 +49,20 @@
 
     <main class="py-24 bg-gradient-to-r to-indigo-600" style="color:#1c4933;">
         <div class="flex justify-center gap-20 mx-64 py-24">
-            <div class="choix"><a href="registerChef.php"><img src="../assets/images/student.png"><div><a href="registerChef.php" class="font-bold">Etudiant</a></div></div>
-            <div class="choix"><a href="register.php"><img src="../assets/images/prof.png"><div><a href="register.php" class="font-bold">Ensiegnant</a></div></div>
+            <!-- Choix Etudiant -->
+            <div class="choix">
+                <a href="register.php?role=etudiant">
+                    <img src="../assets/images/student.png" alt="Étudiant">
+                    <div><a href="register.php?role=etudiant" class="font-bold">Étudiant</a></div>
+                </a>
+            </div>
+            <!-- Choix Enseignant -->
+            <div class="choix">
+                <a href="register.php?role=enseignant">
+                    <img src="../assets/images/prof.png" alt="Enseignant">
+                    <div><a href="register.php?role=enseignant" class="font-bold">Enseignant</a></div>
+                </a>
+            </div>
         </div>
     </main>
     
