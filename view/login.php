@@ -1,8 +1,3 @@
-<?php
-// Récupérer le rôle choisi dans l'URL
-$role = isset($_GET['role']) ? $_GET['role'] : null;
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,6 +5,7 @@ $role = isset($_GET['role']) ? $_GET['role'] : null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../assets/login.js"></script>    
     <style>
         /* Tu peux garder ton CSS personnalisé ici si nécessaire */
     </style>
