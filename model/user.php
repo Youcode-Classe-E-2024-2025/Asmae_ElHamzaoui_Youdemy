@@ -9,7 +9,8 @@ class user{
      private $email_user;
      private $passWord_user;
      private $role_user;
-     
+     private $is_valid;
+
      // constructeur de la classe user
      public function __construct($id_user, $nom_user, $email_user, $passWord_user, $role_user){
         $this->id_user = $id_user;
@@ -28,6 +29,9 @@ class user{
 
     public function getRoleUser(){return $this->role_user ;}
 
+    public function getIsValid() { return $this->is_valid; }
+
+
    //  setters pour la classe user
    public function setNomUser($nom_user){$this->nom_user = $nom_user;}
 
@@ -36,6 +40,8 @@ class user{
    public function setPasswordUser($passWord_user){$this->passWord_user = $passWord_user ;}
 
    public function setRoleUser($role_user){$this->role_user = $role_user;}
+
+   public function setIsValid($is_valid) { $this->is_valid = $is_valid; }
 
 
   // Méthode pour hasher le mot de passe
@@ -47,6 +53,7 @@ class user{
  public function verifyPassword($inputPassword) {
     return password_verify($inputPassword, $this->passWord_user);
 }
+
 
 
 }
