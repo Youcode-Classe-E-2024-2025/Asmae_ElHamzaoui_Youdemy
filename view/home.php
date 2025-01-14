@@ -29,7 +29,7 @@
     <!-- Header -->
     <header class="fixed top-0 left-0 w-full bg-transparent py-2 px-6 bg-white">
         <div class="flex items-center justify-between">
-            <img src="logo.png" alt="Logo" class="w-12 m-2">
+            <img src="../assets/images/logo.png" alt="Logo" class="w-12 m-2">
             <nav class="space-x-8 md:flex">
                 <a href="home.php" class="text-black font-bold hover:text-green-500">Home</a>
                 <a href="AboutUs.php" class="text-black font-bold hover:text-green-500">About us</a>
@@ -67,7 +67,6 @@
             <p>&copy; 2025 Votre entreprise. Tous droits réservés.</p>
         </div>
     </footer>
-
-
+    <script src="../assets/home.js"></script>
 </body>
 </html>
