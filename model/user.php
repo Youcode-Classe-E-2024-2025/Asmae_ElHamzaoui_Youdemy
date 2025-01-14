@@ -43,6 +43,10 @@ class user{
     return password_hash($this->passWord_user, PASSWORD_BCRYPT);
 }
 
+ // Méthode pour vérifier si le mot de passe est correct
+ public function verifyPassword($inputPassword) {
+    return password_verify($inputPassword, $this->passWord_user);
+}
 
 
 }
