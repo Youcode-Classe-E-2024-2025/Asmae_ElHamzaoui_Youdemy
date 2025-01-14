@@ -8,7 +8,7 @@
             </nav>
             <div class="space-x-4">
                 <a href="direction.php" style="background-color:#1c4933" class="text-white px-4 py-2 border border-white font-bold rounded-md hover:bg-green-500">Sign Up</a>
-                <a href="connexion.php" style="background-color:#1c4933" class="text-white px-4 py-2 border border-white font-bold rounded-md hover:bg-green-500">Log In</a>
+                <a href="login.php" style="background-color:#1c4933" class="text-white px-4 py-2 border border-white font-bold rounded-md hover:bg-green-500">Log In</a>
             </div>
         </div>
     </header>

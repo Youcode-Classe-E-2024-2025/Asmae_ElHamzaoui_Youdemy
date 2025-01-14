@@ -21,7 +21,7 @@ $role = isset($_GET['role']) ? $_GET['role'] : null;
 
             <!-- Section gauche (image et texte) -->
             <div class="flex flex-col justify-center items-center sm:items-start">
-                <img src="../assets/images/logoB.png" alt="Logo" class="h-32 w-40 ml-20">
+                <img src="../assets/images/logoB.png" alt="Logo" class="h-24 w-34 ml-24">
                 <p class="ml-4 mt-12 text-black font-bold text-xl text-center sm:text-left">Rejoignez Notre Communauté !</p>
                 <p class="ml-10 text-black mt-1 text-center sm:text-left">Créez un compte pour profiter de</p>
                 <p class="ml-16">toutes nos fonctionnalités.</p>
