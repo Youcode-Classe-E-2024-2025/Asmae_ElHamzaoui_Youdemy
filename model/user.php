@@ -38,7 +38,10 @@ class user{
    public function setRoleUser($role_user){$this->role_user = $role_user;}
 
 
-
+  // Méthode pour hasher le mot de passe
+  public function hashPassword() {
+    return password_hash($this->passWord_user, PASSWORD_BCRYPT);
+}
 
 
 
