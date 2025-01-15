@@ -9,9 +9,18 @@
     <meta name="description" content="description here">
     <meta name="keywords" content="keywords,here">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/> <!--Replace with your tailwind.css once created-->
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> <!--Totally optional :) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis=" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color:white;
+            overflow-x: hidden;
+        }
+</style>
 </head>
 
 <body style="background-color: #dadfdc;" class="mt-12">
@@ -61,23 +70,25 @@
                         </li>
                         <li class="mr-3 flex-1">
                             <a href="#" onclick="showSection('cours')" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
-                                <i class="fas fa-tasks pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Cours</span>
+                                <i class="fa-solid fa-book pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Cours</span>
                             </a>
                         </li>
                         <li class="mr-3 flex-1">
                             <a href="#" onclick="showSection('professor')" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500">
-                                <i class="fa fa-envelope pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Professor</span>
+                                <i class="fa-solid fa-user-tie pr-0 md:pr-3"></i></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Professors</span>
                             </a>
                         </li>
                         <li class="mr-3 flex-1">
                             <a href="#" onclick="showSection('user')" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
-                                <i class="fa fa-wallet pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">User</span>
+                                <i class="fa-solid fa-users pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Users</span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+
+        <!-- Analytics Section -->
         <section id="analytics" class="section">
             <div id="main" class="main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px ; min-width:100%">
                 <div class="pt-3" style="background-color: #dadfdc;">
@@ -250,26 +261,126 @@
            </div>
         </section>
 
-                 <!-- Cours Section -->
-                <div id="cours" class="section hidden">
-                    <h2 class="text-2xl font-bold mb-4">Cours</h2>
-                    <!-- Contenu de la section Cours -->
-                    <p>Voici la section Cours.</p>
+        <!-- Cours Section -->
+        <section id="cours" class="section hidden w-full">
+            <div id="main" class="mx-4 main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px;">
+                <div class="pt-3" style="background-color: #dadfdc;">
+                    <div class="rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
+                        <h1 class="font-bold pl-2">Cours</h1>
+                    </div>
                 </div>
-
-                <!-- Professor Section -->
-                <div id="professor" class="section hidden">
-                    <h2 class="text-2xl font-bold mb-4">Professor</h2>
-                    <!-- Contenu de la section Professor -->
-                    <p>Voici la section Professor.</p>
+                <div class="flex flex-row flex-wrap flex-grow mt-6">
+                    <div class="container p-4">
+                        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+                            <table class="min-w-full table-auto">
+                                <thead class="bg-gray-800 text-white">
+                                    <tr>
+                                        <th class="px-6 py-4 text-left hidden">#</th>
+                                        <th class="px-6 py-4 text-left">Titre</th>
+                                        <th class="px-6 py-4 text-left">description</th>
+                                        <th class="px-6 py-4 text-left">content</th>
+                                        <th class="px-6 py-4 text-left">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-700">
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="px-6 py-4 hidden">1</td>
+                                        <td class="px-6 py-4">Alice Dupont</td>
+                                        <td class="px-6 py-4">25</td>
+                                        <td class="px-6 py-4">Paris</td>
+                                        <td class="px-6 py-4">
+                                            <button class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-user-check"></i></button>
+                                            <button class="text-red-500 hover:text-red-700 ml-2"><i class="fa-solid fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- User Section -->
-                <div id="user" class="section hidden">
-                    <h2 class="text-2xl font-bold mb-4">User</h2>
-                    <!-- Contenu de la section User -->
-                    <p>Voici la section User.</p>
+           </div>
+        </section>         
+        
+        <!-- Professor Section -->
+        <section id="professor" class="section hidden w-full">
+            <div id="main" class="mx-4 main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px;">
+                <div class="pt-3" style="background-color: #dadfdc;">
+                    <div class="rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
+                        <h1 class="font-bold pl-2">Professor</h1>
+                    </div>
                 </div>
+                <div class="flex flex-row flex-wrap flex-grow mt-6">
+                    <div class="container p-4">
+                        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+                            <table class="min-w-full table-auto">
+                                <thead class="bg-gray-800 text-white">
+                                    <tr>
+                                        <th class="px-6 py-4 text-left hidden">#</th>
+                                        <th class="px-6 py-4 text-left">Nom</th>
+                                        <th class="px-6 py-4 text-left">Email</th>
+                                        <th class="px-6 py-4 text-left">Statut</th>
+                                        <th class="px-6 py-4 text-left">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-700">
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="px-6 py-4 hidden">1</td>
+                                        <td class="px-6 py-4">Alice Dupont</td>
+                                        <td class="px-6 py-4">25</td>
+                                        <td class="px-6 py-4">Paris</td>
+                                        <td class="px-6 py-4">
+                                            <button class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-user-check"></i></button>
+                                            <button class="text-red-500 hover:text-red-700 ml-2"><i class="fa-solid fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </section>
+                 
+                
+         <!-- User Section -->     
+        <section  id="user" class="section hidden w-full">
+            <div id="main" class="mx-4 main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px;">
+                <div class="pt-3" style="background-color: #dadfdc;">
+                    <div class="rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
+                        <h1 class="font-bold pl-2">Users</h1>
+                    </div>
+                </div>
+                <div class="flex flex-row flex-wrap flex-grow mt-6">
+                    <div class="container p-4">
+                        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+                            <table class="min-w-full table-auto">
+                                <thead class="bg-gray-800 text-white">
+                                    <tr>
+                                        <th class="px-6 py-4 text-left hidden">#</th>
+                                        <th class="px-6 py-4 text-left">Nom</th>
+                                        <th class="px-6 py-4 text-left">Email</th>
+                                        <th class="px-6 py-4 text-left">Statut</th>
+                                        <th class="px-6 py-4 text-left">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-700">
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="px-6 py-4 hidden">1</td>
+                                        <td class="px-6 py-4">Alice Dupont</td>
+                                        <td class="px-6 py-4">25</td>
+                                        <td class="px-6 py-4">Paris</td>
+                                        <td class="px-6 py-4">
+                                            <button class="text-blue-500 hover:text-blue-700">Active</button>
+                                            <button class="text-red-500 hover:text-red-700 ml-2"><i class="fa-solid fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </section>
     </div>
 </main>
 
