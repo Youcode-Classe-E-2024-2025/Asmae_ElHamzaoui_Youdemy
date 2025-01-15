@@ -69,7 +69,7 @@ public function registerUser($db) {
     }
 
     // Requête d'insertion de l'utilisateur
-    $query = "INSERT INTO utilisateurs (nom_user, email_user, passWord_user, role_user, is_valid) 
+    $query = "INSERT INTO user (user_name, user_email, user_password, user_role, is_valid) 
               VALUES (?, ?, ?, ?, ?)";
     $stmt = $db->prepare($query);
     $stmt->execute([$this->nom_user, $this->email_user, $hashedPassword, $this->role_user, $this->is_valid]);
@@ -82,7 +82,7 @@ public function registerUser($db) {
 // Méthode pour se connecter
 public function loginUser($db, $inputPassword) {
     // Requête pour récupérer l'utilisateur par email
-    $query = "SELECT * FROM utilisateurs WHERE email_user = ?";
+    $query = "SELECT * FROM user WHERE user_email = ?";
     $stmt = $db->prepare($query);
     $stmt->execute([$this->email_user]);
 
@@ -94,7 +94,7 @@ public function loginUser($db, $inputPassword) {
             // Vérifier si l'utilisateur est validé
             if ($user['is_valid'] == 1) {
                 return "Connexion réussie.";
-            } else if ($user['is_valid'] == 0 && $user['role_user'] == 'enseignant') {
+            } else if ($user['is_valid'] == 0 && $user['user_role'] == 'enseignant') {
                 return "Votre compte est en cours de traitement. Veuillez patienter que l'admin le valide.";
             } else {
                 return "Votre compte est désactivé pour le moment.";
@@ -110,7 +110,7 @@ public function loginUser($db, $inputPassword) {
  // Méthode pour valider un utilisateur (par l'administrateur)
  public function validateUser($db) {
     // Requête pour mettre à jour l'utilisateur et valider son compte
-    $query = "UPDATE utilisateurs SET is_valid = 1 WHERE id_user = ?";
+    $query = "UPDATE user SET is_valid = 1 WHERE id_user = ?";
     $stmt = $db->prepare($query);
     $stmt->execute([$this->id_user]);
 }
@@ -118,7 +118,7 @@ public function loginUser($db, $inputPassword) {
 // Méthode pour activer ou désactiver un utilisateur
 public function toggleUserActivation($db) {
     // Requête pour alterner le statut d'activation de l'utilisateur
-    $query = "UPDATE utilisateurs SET is_valid = NOT is_valid WHERE id_user = ?";
+    $query = "UPDATE user SET is_valid = NOT is_valid WHERE id_user = ?";
     $stmt = $db->prepare($query);
     $stmt->execute([$this->id_user]);
 }
@@ -126,7 +126,7 @@ public function toggleUserActivation($db) {
 
 // Méthode pour récupérer un utilisateur par son ID
 public static function getUserById($db, $userId) {
-    $query = "SELECT * FROM utilisateurs WHERE id_user = ?";
+    $query = "SELECT * FROM user WHERE id_user = ?";
     $stmt = $db->prepare($query);
     $stmt->execute([$userId]);
     return $stmt->fetch();
@@ -134,7 +134,7 @@ public static function getUserById($db, $userId) {
 
  // Méthode pour récupérer un utilisateur par son email
  public static function getUserByEmail($db, $email) {
-    $query = "SELECT * FROM utilisateurs WHERE email_user = ?";
+    $query = "SELECT * FROM user WHERE user_email = ?";
     $stmt = $db->prepare($query);
     $stmt->execute([$email]);
     return $stmt->fetch();

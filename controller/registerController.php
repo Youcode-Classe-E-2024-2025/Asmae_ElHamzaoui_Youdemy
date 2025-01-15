@@ -1,16 +1,16 @@
 <?php
 // Inclusion des fichiers nécessaires
 require_once '../config/db.php'; // Connexion à la base de données
-require_once '../models/User.php'; // Classe User
+require_once '../model/user.php'; // Classe User
 
 // Vérifier si le formulaire est soumis
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Récupérer les données envoyées par le formulaire
-    $nom_user = $_POST['user_name'];
-    $email_user = $_POST['user_email'];
-    $password_user = $_POST['user_password'];
-    $confirm_password_user = $_POST['user_confirm_password'];
-    $role_user = $_POST['user_role'];
+    $nom_user = $_POST['username'];
+    $email_user = $_POST['email'];
+    $password_user = $_POST['password'];
+    $confirm_password_user = $_POST['confirmPassword'];
+    $role_user = $_POST['role'];
 
     // Validation côté serveur
 
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Vérifier si l'email est déjà utilisé
-    $existingUser = User::getUserByEmail($db, $email_user);
+    $existingUser = User::getUserByEmail($pdo, $email_user);
     if ($existingUser) {
         echo "L'email est déjà utilisé. Veuillez en choisir un autre.";
         exit;
@@ -62,10 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Insérer l'utilisateur dans la base de données
     try {
         // Utilisation de la méthode `registerUser()` pour insérer les données
-        $userId = $user->registerUser($db);
+        $userId = $user->registerUser($pdo);
         
         if ($userId) {
-            echo "Inscription réussie !";
+            echo "Connection réussie !";
             // Optionnel : Rediriger vers une page de confirmation, ou vers la page de connexion
             // header('Location: login.php');
         } else {
