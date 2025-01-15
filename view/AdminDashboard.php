@@ -4,8 +4,12 @@
 // Connexion à la base de données
 require_once '../model/user.php';
 
-// Utilisation correcte de la classe User pour récupérer les professeurs
+//récupérer les professeurs
 $professeurs = user::getProfesseurs($pdo);  // Appel statique de la méthode pour récupérer les professeurs
+
+//récupérer les utilisateurs
+$utilisateurs = user::getAllUsers($pdo);
+
 ?>
 
 
@@ -373,21 +377,25 @@ $professeurs = user::getProfesseurs($pdo);  // Appel statique de la méthode pou
                                         <th class="px-6 py-4 text-left hidden">#</th>
                                         <th class="px-6 py-4 text-left">Nom</th>
                                         <th class="px-6 py-4 text-left">Email</th>
-                                        <th class="px-6 py-4 text-left">Statut</th>
+                                        <th class="px-6 py-4 text-left">Role</th>
+                                        <th class="px-6 py-4 text-left">activation</th>
                                         <th class="px-6 py-4 text-left">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-700">
+                                    <?php foreach($utilisateurs as $user):?>
                                     <tr class="border-b hover:bg-gray-50">
-                                        <td class="px-6 py-4 hidden">1</td>
-                                        <td class="px-6 py-4">Alice Dupont</td>
-                                        <td class="px-6 py-4">25</td>
-                                        <td class="px-6 py-4">Paris</td>
+                                        <td class="px-6 py-4 hidden"></td>
+                                        <td class="px-6 py-4"><?php echo $user['user_name'] ;?></td>
+                                        <td class="px-6 py-4"><?php echo $user['user_email'] ;?></td>
+                                        <td class="px-6 py-4"><?php echo $user['user_role'] ;?></td>
+                                        <td class="px-6 py-4"><?php echo $user['is_valid'] ;?></td>
                                         <td class="px-6 py-4">
                                             <button class="text-blue-500 hover:text-blue-700">Active</button>
                                             <button class="text-red-500 hover:text-red-700 ml-2"><i class="fa-solid fa-trash"></i></button>
                                         </td>
                                     </tr>
+                                    <?php endforeach;?>
                                 </tbody>
                             </table>
                         </div>
