@@ -55,30 +55,30 @@
                 <div class="md:mt-20 md:w-48 md:fixed md:left-0 md:top-0 content-center md:content-start text-left justify-between">
                     <ul class="list-reset flex flex-row md:flex-col pt-3 md:py-3 px-1 md:px-2 text-center md:text-left">
                         <li class="mr-3 flex-1">
-                            <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+                            <a href="#" onclick="showSection('analytics')" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600">
+                                <i class="fas fa-chart-area pr-0 md:pr-3 text-blue-600"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-white md:text-white block md:inline-block">Analytics</span>
+                            </a>
+                        </li>
+                        <li class="mr-3 flex-1">
+                            <a href="#" onclick="showSection('cours')" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
                                 <i class="fas fa-tasks pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Cours</span>
                             </a>
                         </li>
                         <li class="mr-3 flex-1">
-                            <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500">
+                            <a href="#" onclick="showSection('professor')" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500">
                                 <i class="fa fa-envelope pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Professor</span>
                             </a>
                         </li>
                         <li class="mr-3 flex-1">
-                            <a href="#" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                            <a href="#" onclick="showSection('user')" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
                                 <i class="fa fa-wallet pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">User</span>
-                            </a>
-                        </li>
-                        <li class="mr-3 flex-1">
-                            <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600">
-                                <i class="fas fa-chart-area pr-0 md:pr-3 text-blue-600"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-white md:text-white block md:inline-block">Analytics</span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <section>
+        <section id="analytics" class="section">
             <div id="main" class="main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px ; min-width:100%">
                 <div class="pt-3" style="background-color: #dadfdc;">
                     <div class="rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
@@ -249,6 +249,27 @@
                 </div>
            </div>
         </section>
+
+                 <!-- Cours Section -->
+                <div id="cours" class="section hidden">
+                    <h2 class="text-2xl font-bold mb-4">Cours</h2>
+                    <!-- Contenu de la section Cours -->
+                    <p>Voici la section Cours.</p>
+                </div>
+
+                <!-- Professor Section -->
+                <div id="professor" class="section hidden">
+                    <h2 class="text-2xl font-bold mb-4">Professor</h2>
+                    <!-- Contenu de la section Professor -->
+                    <p>Voici la section Professor.</p>
+                </div>
+
+                <!-- User Section -->
+                <div id="user" class="section hidden">
+                    <h2 class="text-2xl font-bold mb-4">User</h2>
+                    <!-- Contenu de la section User -->
+                    <p>Voici la section User.</p>
+                </div>
     </div>
 </main>
 
@@ -287,6 +308,28 @@
             }
         }
     }
+
+
+     // Fonction pour afficher la section correspondante
+     function showSection(section) {
+        // Masquer toutes les sections
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(function (sec) {
+            sec.classList.add('hidden');
+        });
+
+        // Afficher la section demandée
+        const sectionToShow = document.getElementById(section);
+        if (sectionToShow) {
+            sectionToShow.classList.remove('hidden');
+        }
+    }
+
+    // Attendez que le DOM soit complètement chargé avant d'exécuter le script
+    document.addEventListener('DOMContentLoaded', function () {
+        // Afficher la section Analytics par défaut après le chargement de la page
+        showSection('analytics');
+    });
 </script>
 
 
