@@ -115,5 +115,15 @@ public function loginUser($db, $inputPassword) {
     $stmt->execute([$this->id_user]);
 }
 
+// Méthode pour activer ou désactiver un utilisateur
+public function toggleUserActivation($db) {
+    // Requête pour alterner le statut d'activation de l'utilisateur
+    $query = "UPDATE utilisateurs SET is_valid = NOT is_valid WHERE id_user = ?";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$this->id_user]);
+}
+
+
+
 }
 ?>
