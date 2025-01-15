@@ -79,6 +79,34 @@ public function registerUser($db) {
 }
 
 
+// Méthode pour se connecter
+public function loginUser($db, $inputPassword) {
+    // Requête pour récupérer l'utilisateur par email
+    $query = "SELECT * FROM utilisateurs WHERE email_user = ?";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$this->email_user]);
+
+    // Vérifier si l'utilisateur existe
+    $user = $stmt->fetch();
+    if ($user) {
+        // Vérifier le mot de passe
+        if ($this->verifyPassword($inputPassword)) {
+            // Vérifier si l'utilisateur est validé
+            if ($user['is_valid'] == 1) {
+                return "Connexion réussie.";
+            } else if ($user['is_valid'] == 0 && $user['role_user'] == 'enseignant') {
+                return "Votre compte est en cours de traitement. Veuillez patienter que l'admin le valide.";
+            } else {
+                return "Votre compte est désactivé pour le moment.";
+            }
+        } else {
+            return "Mot de passe incorrect.";
+        }
+    } else {
+        return "Utilisateur non trouvé.";
+    }
+}
+
 
 }
 ?>
