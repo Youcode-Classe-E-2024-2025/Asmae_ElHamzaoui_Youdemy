@@ -30,7 +30,7 @@ $role = isset($_GET['role']) ? $_GET['role'] : null;
 
             <!-- Section droite (formulaire d'inscription) -->
             <div>
-                <form id="registerForm" action="../controllers/registerController.php" method="POST" onsubmit="return validateForm()">
+                <form id="registerForm" action="../controller/registerController.php" method="POST" onsubmit="return validateForm()">
                     <!-- Ajout du rôle caché -->
                    <input type="hidden" name="role" value="<?= $role ?>"> 
                     <!-- Récupération des informations utilisateur -->
