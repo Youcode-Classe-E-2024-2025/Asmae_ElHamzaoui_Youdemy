@@ -161,6 +161,7 @@ public static function getProfesseurs($db) {
     $stmt = $db->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(); // Retourne un tableau de tous les enseignants
+    
 }
 
 
