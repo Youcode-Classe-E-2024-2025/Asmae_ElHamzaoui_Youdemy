@@ -155,6 +155,14 @@ public function deleteUser($db) {
     }
 }
 
+// Méthode pour récupérer les professeurs
+public static function getProfesseurs($db) {
+    $query = "SELECT * FROM user WHERE user_role = 'enseignant'";
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(); // Retourne un tableau de tous les enseignants
+}
+
 
 }
 ?>
