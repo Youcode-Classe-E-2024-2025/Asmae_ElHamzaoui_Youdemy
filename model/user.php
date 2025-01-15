@@ -132,6 +132,13 @@ public static function getUserById($db, $userId) {
     return $stmt->fetch();
 }
 
+ // Méthode pour récupérer un utilisateur par son email
+ public static function getUserByEmail($db, $email) {
+    $query = "SELECT * FROM utilisateurs WHERE email_user = ?";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$email]);
+    return $stmt->fetch();
+}
 
 
 }
