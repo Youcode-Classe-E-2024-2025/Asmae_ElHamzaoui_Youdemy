@@ -124,6 +124,15 @@ public function toggleUserActivation($db) {
 }
 
 
+// Méthode pour récupérer un utilisateur par son ID
+public static function getUserById($db, $userId) {
+    $query = "SELECT * FROM utilisateurs WHERE id_user = ?";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$userId]);
+    return $stmt->fetch();
+}
+
+
 
 }
 ?>
