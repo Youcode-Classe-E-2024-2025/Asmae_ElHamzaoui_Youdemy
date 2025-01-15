@@ -107,6 +107,13 @@ public function loginUser($db, $inputPassword) {
     }
 }
 
+ // Méthode pour valider un utilisateur (par l'administrateur)
+ public function validateUser($db) {
+    // Requête pour mettre à jour l'utilisateur et valider son compte
+    $query = "UPDATE utilisateurs SET is_valid = 1 WHERE id_user = ?";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$this->id_user]);
+}
 
 }
 ?>
