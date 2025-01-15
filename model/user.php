@@ -140,6 +140,21 @@ public static function getUserById($db, $userId) {
     return $stmt->fetch();
 }
 
+// Méthode pour supprimer un utilisateur
+public function deleteUser($db) {
+    // Requête pour supprimer l'utilisateur par son ID
+    $query = "DELETE FROM user WHERE id_user = ?";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$this->id_user]);
+
+    // Vérifier si l'utilisateur a été supprimé avec succès
+    if ($stmt->rowCount() > 0) {
+        return "Utilisateur supprimé avec succès.";
+    } else {
+        return "Erreur lors de la suppression de l'utilisateur.";
+    }
+}
+
 
 }
 ?>

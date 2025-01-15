@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         if ($userId) {
             echo "Connection réussie !";
-            // Optionnel : Rediriger vers une page de confirmation, ou vers la page de connexion
+            // direction vers la page de confirmation 
             // header('Location: login.php');
         } else {
             echo "Une erreur est survenue lors de l'inscription.";
