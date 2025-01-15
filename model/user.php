@@ -55,6 +55,30 @@ class user{
 }
 
 
+// Méthode pour enregistrer un utilisateur dans la base de données
+public function registerUser($db) {
+    // Hash du mot de passe
+    $hashedPassword = $this->hashPassword();
+
+    // Si l'utilisateur est un enseignant, on laisse is_valid = 0 (en attente de validation)
+    if ($this->role_user == 'enseignant') {
+        $this->is_valid = 0; // L'utilisateur enseignant est en attente de validation
+    } else {
+        // Si c'est un étudiant, le compte est directement validé
+        $this->is_valid = 1; // L'utilisateur étudiant est validé automatiquement
+    }
+
+    // Requête d'insertion de l'utilisateur
+    $query = "INSERT INTO utilisateurs (nom_user, email_user, passWord_user, role_user, is_valid) 
+              VALUES (?, ?, ?, ?, ?)";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$this->nom_user, $this->email_user, $hashedPassword, $this->role_user, $this->is_valid]);
+
+    // Retourner l'ID de l'utilisateur
+    return $db->lastInsertId();
+}
+
+
 
 }
 ?>
