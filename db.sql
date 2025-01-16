@@ -10,3 +10,6 @@ CREATE TABLE user (
     user_role ENUM('Etudiant', 'Enseignant', 'Admin') NOT NULL,
     is_valid TINYINT(1) NOT NULL DEFAULT 0
 );
+
+ALTER TABLE user
+ADD COLUMN status ENUM('activer', 'désactiver') NOT NULL DEFAULT 'désactiver';
