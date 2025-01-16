@@ -88,7 +88,7 @@ public function loginUser($db, $inputPassword) {
 
     // Vérifier si l'utilisateur existe
     $user = $stmt->fetch();
-    if ($user) {
+    if ($user){
         // Vérifier le mot de passe
         if ($this->verifyPassword($inputPassword)) {
             // Vérifier si l'utilisateur est validé

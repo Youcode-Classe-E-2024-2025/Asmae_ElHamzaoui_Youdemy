@@ -378,7 +378,7 @@ $utilisateurs = user::getAllUsers($pdo);
                                         <th class="px-6 py-4 text-left">Nom</th>
                                         <th class="px-6 py-4 text-left">Email</th>
                                         <th class="px-6 py-4 text-left">Role</th>
-                                        <th class="px-6 py-4 text-left">activation</th>
+                                        <th class="px-6 py-4 text-left">Activation</th>
                                         <th class="px-6 py-4 text-left">Actions</th>
                                     </tr>
                                 </thead>
