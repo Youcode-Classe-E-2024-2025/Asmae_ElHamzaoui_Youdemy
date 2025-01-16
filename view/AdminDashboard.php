@@ -11,9 +11,6 @@ $professeurs = user::getProfesseurs($pdo);  // Appel statique de la méthode pou
 $utilisateurs = user::getAllUsers($pdo);
 
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -347,8 +344,16 @@ $utilisateurs = user::getAllUsers($pdo);
                                         <td class="px-6 py-4"><?php echo $prof['user_email'] ; ?></td>
                                         <td class="px-6 py-4"><?php echo $prof['is_valid'] ; ?></td>
                                         <td class="px-6 py-4">
-                                            <button class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-user-check"></i></button>
-                                            <button class="text-red-500 hover:text-red-700 ml-2"><i class="fa-solid fa-trash"></i></button>
+                                            <form method="POST" action="../controller/confirmationUser.php" class="inline ml-2">
+                                                   <input type="hidden" name="user_id" value="<?php echo $prof['id_user']; ?>" />
+                                                   <button type="submit" name="changer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir changer le statut de cet utilisateur ?')"
+                                                    class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-user-check"></i></button>
+                                            </form>
+                                            <form method="POST" action="../controllers/supprimer_user.php" class="inline ml-2">
+                                                    <input type="hidden" name="user_id" value="<?php echo $prof['id_user']; ?>" />
+                                                    <button type="submit" name="supprimer" style="background-color:rgb(185, 212, 243);"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')"
+                                                     class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php endforeach;?>
@@ -392,8 +397,17 @@ $utilisateurs = user::getAllUsers($pdo);
                                         <td class="px-6 py-4"><?php echo $user['user_role'] ;?></td>
                                         <td class="px-6 py-4"><?php echo $user['is_valid'] ;?></td>
                                         <td class="px-6 py-4">
-                                            <button class="text-blue-500 hover:text-blue-700">Active</button>
-                                            <button class="text-red-500 hover:text-red-700 ml-2"><i class="fa-solid fa-trash"></i></button>
+
+                                            <form method="POST" action="../controller/activationUser.php" class="inline ml-2">
+                                                   <input type="hidden" name="user_id" value="<?php echo $prof['id_user']; ?>" />
+                                                   <button type="submit" name="changer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir de déactiver ou activer cet utilisateur ?')"
+                                                    class="text-white py-2 px-3 rounded hover:bg-red-600">Active</button>
+                                            </form>
+                                            <form method="POST" action="../controller/supprimer_user.php" class="inline ml-2">
+                                                    <input type="hidden" name="user_id" value="<?php echo $prof['id_user']; ?>" />
+                                                    <button type="submit" name="supprimer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')"
+                                                     class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php endforeach;?>
