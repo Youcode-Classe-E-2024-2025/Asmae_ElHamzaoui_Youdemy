@@ -13,13 +13,12 @@ class user{
      private $status;
 
      // constructeur de la classe user
-     public function __construct($id_user, $nom_user, $email_user, $passWord_user, $role_user,$status){
+     public function __construct($id_user, $nom_user, $email_user, $passWord_user, $role_user){
         $this->id_user = $id_user;
         $this->nom_user = $nom_user;
         $this->email_user = $email_user;
         $this->passWord_user = $passWord_user;
         $this->role_user = $role_user;
-        $this->status = $status;
      }
     
     //  getters pour la classe user
@@ -63,7 +62,6 @@ class user{
 }
 
 
-// Méthode pour enregistrer un utilisateur dans la base de données
 public function registerUser($db) {
     // Hash du mot de passe
     $hashedPassword = $this->hashPassword();
@@ -74,6 +72,11 @@ public function registerUser($db) {
     } else {
         // Si c'est un étudiant, le compte est directement validé
         $this->is_valid = 1; // L'utilisateur étudiant est validé automatiquement
+    }
+
+    // Si la propriété status n'est pas définie, on lui attribue la valeur par défaut 'désactiver'
+    if (empty($this->status)) {
+        $this->status = 'désactiver'; // Valeur par défaut pour la colonne status
     }
 
     // Requête d'insertion de l'utilisateur
