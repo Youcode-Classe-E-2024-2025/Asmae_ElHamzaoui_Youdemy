@@ -77,10 +77,10 @@ public function registerUser($db) {
     }
 
     // Requête d'insertion de l'utilisateur
-    $query = "INSERT INTO user (user_name, user_email, user_password, user_role, is_valid) 
-              VALUES (?, ?, ?, ?, ?)";
+    $query = "INSERT INTO user (user_name, user_email, user_password, user_role, is_valid, status) 
+              VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $db->prepare($query);
-    $stmt->execute([$this->nom_user, $this->email_user, $hashedPassword, $this->role_user, $this->is_valid]);
+    $stmt->execute([$this->nom_user, $this->email_user, $hashedPassword, $this->role_user, $this->is_valid, $this->status]);
 
     // Retourner l'ID de l'utilisateur
     return $db->lastInsertId();

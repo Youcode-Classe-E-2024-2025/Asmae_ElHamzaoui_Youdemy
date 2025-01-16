@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'])) {
         // Méthode pour confirmer un utilisateur
         public function confirmUser($userId) {
             global $pdo;  // Utiliser la connexion PDO depuis le fichier db.php
-            $user = new user($userId, '', '', '', ''); // Créez un objet utilisateur avec l'ID
+            $user = new user($userId, '', '', '', '',''); // Créez un objet utilisateur avec l'ID
 
             // Appel de la méthode pour valider l'utilisateur
             $user->validateUser($pdo);
