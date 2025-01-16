@@ -1,12 +1,10 @@
 <?php
 
 // Paramètres de connexion à la base de données
-
 $host = 'localhost';        // L'hôte de la base de données 
 $dbname = 'coursbase';      // Nom de la base de données
 $username = 'root';         // Nom d'utilisateur pour la connexion à la base de données 
 $password = '';             // Mot de passe pour l'utilisateur 
-
 try {
     // Créer une connexion PDO à la base de données
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
