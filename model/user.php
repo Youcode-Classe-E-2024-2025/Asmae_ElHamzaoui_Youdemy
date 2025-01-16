@@ -10,14 +10,16 @@ class user{
      private $passWord_user;
      private $role_user;
      private $is_valid;
+     private $status;
 
      // constructeur de la classe user
-     public function __construct($id_user, $nom_user, $email_user, $passWord_user, $role_user){
+     public function __construct($id_user, $nom_user, $email_user, $passWord_user, $role_user,$status){
         $this->id_user = $id_user;
         $this->nom_user = $nom_user;
         $this->email_user = $email_user;
         $this->passWord_user = $passWord_user;
         $this->role_user = $role_user;
+        $this->status = $status;
      }
     
     //  getters pour la classe user
@@ -31,6 +33,9 @@ class user{
 
     public function getIsValid() { return $this->is_valid; }
 
+    public function getStatus() { return $this->status; }
+
+
 
    //  setters pour la classe user
    public function setNomUser($nom_user){$this->nom_user = $nom_user;}
@@ -42,6 +47,9 @@ class user{
    public function setRoleUser($role_user){$this->role_user = $role_user;}
 
    public function setIsValid($is_valid) { $this->is_valid = $is_valid; }
+
+   public function setStatus($status) { $this->status = $status; }
+
 
 
   // Méthode pour hasher le mot de passe
@@ -117,11 +125,26 @@ public function loginUser($db, $inputPassword) {
 
 // Méthode pour activer ou désactiver un utilisateur
 public function toggleUserActivation($db) {
-    // Requête pour alterner le statut d'activation de l'utilisateur
-    $query = "UPDATE user SET is_valid = NOT is_valid WHERE id_user = ?";
+    // Vérifier l'état actuel de l'utilisateur
+    $query = "SELECT is_valid, status FROM user WHERE id_user = ?";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$this->id_user]);
+    $user = $stmt->fetch();
+
+    // Si l'utilisateur est actuellement activé (is_valid = 1 et status = 'activer')
+    if ($user && $user['is_valid'] == 1 && $user['status'] == 'activer') {
+        // Désactiver l'utilisateur
+        $query = "UPDATE user SET is_valid = 0, status = 'désactiver' WHERE id_user = ?";
+    } else {
+        // Sinon, activer l'utilisateur
+        $query = "UPDATE user SET is_valid = 1, status = 'activer' WHERE id_user = ?";
+    }
+
+    // Exécuter la mise à jour
     $stmt = $db->prepare($query);
     $stmt->execute([$this->id_user]);
 }
+
 
 
 // Méthode pour récupérer un utilisateur par son ID
