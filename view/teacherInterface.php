@@ -142,7 +142,7 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style="color:#24508c"><?php echo htmlspecialchars($course['titre_cours']); ?></h5>
                             </a>
                             <p class="mb-3 font-bold text-gray-700 dark:text-gray-400"><?php echo htmlspecialchars($course['desc_cours']); ?></p>
-                            <form method="POST" action="modifier_projet.php" class="inline ml-2">
+                            <form method="POST" action="modifier_cours.php?id_cour=<?php echo $course['id_cours']; ?>" class="inline ml-2">
                                 <input type="hidden" name="cours_id" value="<?php echo $course['id_cours']; ?>" />
                                 <button type="submit" name="modifier" style="color: rgb(185, 212, 243) ;background-color:#24508c;" class="text-white py-2 px-3 rounded hover:bg-yellow-600"><i class="fa-solid fa-pen-to-square"></i></button>
                             </form>
