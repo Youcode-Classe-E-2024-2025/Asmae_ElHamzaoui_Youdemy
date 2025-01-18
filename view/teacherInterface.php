@@ -151,7 +151,7 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <button type="submit" name="supprimer" style="color: rgb(185, 212, 243) ;background-color:#24508c;" class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
                             </form>
                             <form class="inline ml-1">
-                               <a href="taches_view.php?id_cour=<?php echo $course['id_cours']; ?>" style="color: rgb(185, 212, 243) ;background-color:#24508c;"  class="text-white font-bold p-2 px-2 rounded hover:bg-red-600 w-24 h-24">Voir détail</a>
+                               <a href="detailCours.php?id_cour=<?php echo $course['id_cours']; ?>" style="color: rgb(185, 212, 243) ;background-color:#24508c;"  class="text-white font-bold p-2 px-2 rounded hover:bg-red-600 w-24 h-24">Voir détail</a>
                             </form>
                         </div>
                     </div>
