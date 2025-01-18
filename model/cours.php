@@ -78,6 +78,26 @@ class CoursMarkdown extends Cours {
 
 class CoursVideo extends Cours {
 
+    public function ajouterCours() {
+        // Préparer la requête d'insertion pour le type "video"
+        $stmt = $this->pdo->prepare('INSERT INTO cours (titre_cours, image_cours, desc_cours, content_type, content_cours) 
+                                     VALUES (?, ?, ?, ?, ?)');
+        $stmt->execute([
+            $this->getTitreCours(),
+            $this->getImageCours(),
+            $this->getDescCours(),
+            'video',
+            $this->getContentCours() // URL de la vidéo
+        ]);
+        $this->id_cours = $this->pdo->lastInsertId(); // Récupérer l'ID généré
+    }
+
+
+     
+    
+       
+
+
 }
 
 
