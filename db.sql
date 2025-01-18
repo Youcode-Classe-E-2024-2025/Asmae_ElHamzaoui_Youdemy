@@ -13,3 +13,13 @@ CREATE TABLE user (
 
 ALTER TABLE user
 ADD COLUMN status ENUM('activer', 'désactiver') NOT NULL DEFAULT 'désactiver';
+
+
+CREATE TABLE cours(
+id_cours INT PRIMARY KEY AUTO_INCREMENT,
+titre_cours VARCHAR(255) NOT NULL,
+image_cours VARCHAR(255) NULL,
+desc_cours VARCHAR(255) NOT NULL,
+content_type ENUM('markdown', 'video') NOT NULL,
+content_cours TEXT NOT NULL
+);
