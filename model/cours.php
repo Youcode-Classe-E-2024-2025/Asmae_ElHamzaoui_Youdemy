@@ -51,6 +51,10 @@ abstract class Cours {
 }
 
 
+class CoursMarkdown extends Cours {
+
+    
+}
 
 
 ?>
