@@ -1,4 +1,8 @@
 <?php
+
+// Inclure le fichier de connexion à la base de données
+require_once '../config/db.php';
+
 abstract class Cours {
     private $id_cours;
     private $titre_cours;
@@ -8,7 +12,8 @@ abstract class Cours {
     private $content_cours;
 
     // Constructeur
-    public function __construct($titre_cours, $image_cours = null, $desc_cours, $content_type, $content_cours) {
+    public function __construct($titre_cours, $desc_cours, $content_type, $content_cours, $image_cours = null, $id_cours = null) {
+        $this->id_cours = $id_cours;
         $this->titre_cours = $titre_cours;
         $this->image_cours = $image_cours;
         $this->desc_cours = $desc_cours;
@@ -17,66 +22,54 @@ abstract class Cours {
     }
 
     // Getters
-    public function getIdCours() {  return $this->id_cours;}
-       
-    public function getTitreCours() {  return $this->titre_cours; }
-       
+    public function getIdCours() { return $this->id_cours; }
+    public function getTitreCours() { return $this->titre_cours; }
     public function getImageCours() { return $this->image_cours; }
-
     public function getDescCours() { return $this->desc_cours; }
-        
     public function getContentType() { return $this->content_type; }
-
-    public function getContentCours() {  return $this->content_cours; }
+    public function getContentCours() { return $this->content_cours; }
 
     // Setters
-    public function setTitreCours($titre_cours) {  $this->titre_cours = $titre_cours; }
-       
-    public function setImageCours($image_cours) { $this->image_cours = $image_cours;  }
-
+    public function setTitreCours($titre_cours) { $this->titre_cours = $titre_cours; }
+    public function setImageCours($image_cours) { $this->image_cours = $image_cours; }
     public function setDescCours($desc_cours) { $this->desc_cours = $desc_cours; }
-        
     public function setContentType($content_type) { $this->content_type = $content_type; }
+    public function setContentCours($content_cours) { $this->content_cours = $content_cours; }
 
-    public function setContentCours($content_cours) { $this->content_cours = $content_cours;  }
+    // Méthode abstraite pour ajouter un cours en fonction du type de contenu
+    abstract public function ajouterCours($db);
 
-   
-     // Méthode abstraite pour ajouter un cours en fonction du type de contenu
-     abstract public function ajouterCours();
+    // Méthode abstraite pour afficher un cours en fonction du type de contenu
+    abstract public function afficherCours($db);
 
-     // Méthode abstraite pour afficher un cours en fonction du type de contenu
-     abstract public function afficherCours();
-
-
-      // Méthode pour modifier un cours existant
-    public function modifierCours() {
-        $stmt = $this->pdo->prepare('UPDATE cours SET titre_cours = ?, image_cours = ?, desc_cours = ?, content_type = ?, content_cours = ? WHERE id_cours = ?');
-        $stmt->execute([
-            $this->getTitreCours(),
-            $this->getImageCours(),
-            $this->getDescCours(),
-            $this->getContentType(),
-            $this->getContentCours(),
-            $this->getIdCours()
-        ]);
+    // Méthode pour modifier un cours existant
+    public function modifierCours($db) {
+        if ($this->getIdCours() !== null) {
+            $stmt = $db->prepare('UPDATE cours SET titre_cours = ?, image_cours = ?, desc_cours = ?, content_type = ?, content_cours = ? WHERE id_cours = ?');
+            $stmt->execute([
+                $this->getTitreCours(),
+                $this->getImageCours(),
+                $this->getDescCours(),
+                $this->getContentType(),
+                $this->getContentCours(),
+                $this->getIdCours()
+            ]);
+        }
     }
 
     // Méthode pour supprimer un cours
-    public function supprimerCours() {
-        $stmt = $this->pdo->prepare('DELETE FROM cours WHERE id_cours = ?');
-        $stmt->execute([$this->getIdCours()]);
+    public function supprimerCours($db) {
+        if ($this->getIdCours() !== null) {
+            $stmt = $db->prepare('DELETE FROM cours WHERE id_cours = ?');
+            $stmt->execute([$this->getIdCours()]);
+        }
     }
-
-  
 }
 
-
 class CoursMarkdown extends Cours {
-
-    public function ajouterCours() {
-        // Préparer la requête d'insertion pour le type "markdown"
-        $stmt = $this->pdo->prepare('INSERT INTO cours (titre_cours, image_cours, desc_cours, content_type, content_cours) 
-                                     VALUES (?, ?, ?, ?, ?)');
+    public function ajouterCours($db) {
+        $stmt = $db->prepare('INSERT INTO cours (titre_cours, image_cours, desc_cours, content_type, content_cours) 
+                             VALUES (?, ?, ?, ?, ?)');
         $stmt->execute([
             $this->getTitreCours(),
             $this->getImageCours(),
@@ -84,21 +77,18 @@ class CoursMarkdown extends Cours {
             'markdown',
             $this->getContentCours()
         ]);
-        $this->id_cours = $this->pdo->lastInsertId(); // Récupérer l'ID généré
+        $this->id_cours = $db->lastInsertId(); // Récupérer l'ID généré
     }
 
-
-    public function afficherCours() {
-        // Afficher le contenu Markdown (ici, on suppose que le contenu est en texte brut ou formaté)
+    public function afficherCours($db) {
         echo "<div class='markdown-content'>" . nl2br(htmlspecialchars($this->getContentCours())) . "</div>";
-    }    
+    }
 }
 
 class CoursVideo extends Cours {
-    public function ajouterCours() {
-        // Préparer la requête d'insertion pour le type "video"
-        $stmt = $this->pdo->prepare('INSERT INTO cours (titre_cours, image_cours, desc_cours, content_type, content_cours) 
-                                     VALUES (?, ?, ?, ?, ?)');
+    public function ajouterCours($db) {
+        $stmt = $db->prepare('INSERT INTO cours (titre_cours, image_cours, desc_cours, content_type, content_cours) 
+                             VALUES (?, ?, ?, ?, ?)');
         $stmt->execute([
             $this->getTitreCours(),
             $this->getImageCours(),
@@ -106,11 +96,10 @@ class CoursVideo extends Cours {
             'video',
             $this->getContentCours() // URL de la vidéo
         ]);
-        $this->id_cours = $this->pdo->lastInsertId(); // Récupérer l'ID généré
+        $this->id_cours = $db->lastInsertId(); // Récupérer l'ID généré
     }
-    
-    public function afficherCours() {
-        // Afficher le contenu vidéo (ici, on suppose que le contenu est une URL vers une vidéo)
+
+    public function afficherCours($db) {
         echo "<div class='video-content'>
                 <video controls>
                     <source src='" . htmlspecialchars($this->getContentCours()) . "' type='video/mp4'>

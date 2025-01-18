@@ -1,7 +1,7 @@
 <?php
 // Inclusion des fichiers nécessaires
 require_once '../config/db.php';  // Connexion à la base de données
-require_once '../models/User.php';  // Classe User
+require_once '../model/user.php';  // Classe User
 
 // Démarrer une session
 session_start();
