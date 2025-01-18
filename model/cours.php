@@ -71,8 +71,13 @@ class CoursMarkdown extends Cours {
     public function afficherCours() {
         // Afficher le contenu Markdown (ici, on suppose que le contenu est en texte brut ou formaté)
         echo "<div class='markdown-content'>" . nl2br(htmlspecialchars($this->getContentCours())) . "</div>";
-    }
-   
+    }    
+}
+
+
+
+class CoursVideo extends Cours {
+
 }
 
 
