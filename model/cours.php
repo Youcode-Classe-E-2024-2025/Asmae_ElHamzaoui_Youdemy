@@ -53,7 +53,21 @@ abstract class Cours {
 
 class CoursMarkdown extends Cours {
 
-    
+    public function ajouterCours() {
+        // Préparer la requête d'insertion pour le type "markdown"
+        $stmt = $this->pdo->prepare('INSERT INTO cours (titre_cours, image_cours, desc_cours, content_type, content_cours) 
+                                     VALUES (?, ?, ?, ?, ?)');
+        $stmt->execute([
+            $this->getTitreCours(),
+            $this->getImageCours(),
+            $this->getDescCours(),
+            'markdown',
+            $this->getContentCours()
+        ]);
+        $this->id_cours = $this->pdo->lastInsertId(); // Récupérer l'ID généré
+    }
+
+   
 }
 
 
