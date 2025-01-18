@@ -11,4 +11,4 @@
                 <a href="login.php" style="background-color:#1c4933" class="text-white px-4 py-2 border border-white font-bold rounded-md hover:bg-green-500">Log In</a>
             </div>
         </div>
-    </header>
+</header>
