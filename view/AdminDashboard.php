@@ -1,6 +1,8 @@
 <?php
 
-
+// Inclure le fichier de connexion à la base de données et les classes de cours
+require_once '../config/db.php';
+require_once '../model/cours.php'; // Assure-toi d'inclure ce fichier
 // Connexion à la base de données
 require_once '../model/user.php';
 
@@ -10,6 +12,9 @@ $professeurs = user::getProfesseurs($pdo);  // Appel statique de la méthode pou
 //récupérer les utilisateurs
 $utilisateurs = user::getAllUsers($pdo);
 
+// Récupérer tous les cours depuis la base de données
+$stmt = $pdo->query("SELECT * FROM cours");
+$coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -292,21 +297,25 @@ $utilisateurs = user::getAllUsers($pdo);
                                         <th class="px-6 py-4 text-left hidden">#</th>
                                         <th class="px-6 py-4 text-left">Titre</th>
                                         <th class="px-6 py-4 text-left">description</th>
-                                        <th class="px-6 py-4 text-left">content</th>
-                                        <th class="px-6 py-4 text-left">Actions</th>
+                                        <th class="px-6 py-4 text-left">catégorie</th>
+                                        <th class="px-6 py-4 text-left">tags</th>
+                                        <th class="px-6 py-4 text-left">action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-700">
+                                <?php foreach ($coursData as $course): ?>
                                     <tr class="border-b hover:bg-gray-50">
-                                        <td class="px-6 py-4 hidden">1</td>
-                                        <td class="px-6 py-4">Alice Dupont</td>
-                                        <td class="px-6 py-4">25</td>
+                                        <td class="px-6 py-4 hidden"></td>
+                                        <td class="px-6 py-4"><?php echo htmlspecialchars($course['titre_cours']); ?></td>
+                                        <td class="px-6 py-4"><?php echo htmlspecialchars($course['desc_cours']); ?></td>
+                                        <td class="px-6 py-4">Paris</td>
                                         <td class="px-6 py-4">Paris</td>
                                         <td class="px-6 py-4">
                                             <button class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-user-check"></i></button>
                                             <button class="text-red-500 hover:text-red-700 ml-2"><i class="fa-solid fa-trash"></i></button>
                                         </td>
                                     </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
