@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $cours->ajouterCours($pdo);
         // Rediriger ou afficher un message de succès
-        echo "soumissionCorrecte";  // Vous pouvez ici rediriger vers une autre page, comme une page de confirmation
+        header("Location: ../view/teacherInterface.php"); 
     } catch (Exception $e) {
         die("Erreur lors de l'ajout du cours à la base de données : " . $e->getMessage());
     }
