@@ -47,6 +47,22 @@ abstract class Cours {
      // Méthode abstraite pour afficher un cours en fonction du type de contenu
      abstract public function afficherCours();
 
+
+      // Méthode pour modifier un cours existant
+    public function modifierCours() {
+        $stmt = $this->pdo->prepare('UPDATE cours SET titre_cours = ?, image_cours = ?, desc_cours = ?, content_type = ?, content_cours = ? WHERE id_cours = ?');
+        $stmt->execute([
+            $this->getTitreCours(),
+            $this->getImageCours(),
+            $this->getDescCours(),
+            $this->getContentType(),
+            $this->getContentCours(),
+            $this->getIdCours()
+        ]);
+    }
+
+   
+
   
 }
 
@@ -73,8 +89,6 @@ class CoursMarkdown extends Cours {
         echo "<div class='markdown-content'>" . nl2br(htmlspecialchars($this->getContentCours())) . "</div>";
     }    
 }
-
-
 
 class CoursVideo extends Cours {
     public function ajouterCours() {
