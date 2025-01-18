@@ -27,6 +27,9 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="description" content="description here">
     <meta name="keywords" content="keywords,here">
     <script src="../assets/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/> <!--Replace with your tailwind.css once created-->
@@ -100,6 +103,16 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <li class="mr-3 flex-1">
                             <a href="#" onclick="showSection('user')" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
                                 <i class="fa-solid fa-users pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Users</span>
+                            </a>
+                        </li>
+                        <li class="mr-3 flex-1">
+                            <a href="#" onclick="showSection('tags')" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                                <i class="fa-solid fa-users pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Tags</span>
+                            </a>
+                        </li>
+                        <li class="mr-3 flex-1">
+                            <a href="#" onclick="showSection('categorise')" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                                <i class="fa-solid fa-users pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Categorise</span>
                             </a>
                         </li>
                     </ul>
@@ -427,8 +440,117 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
            </div>
         </section>
+  
+
+        <!-- section Tags -->     
+        <section  id="tags" class="section hidden w-full">
+            <div id="main" class="mx-4 main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px;">
+                <div class="pt-3" style="background-color: #dadfdc;">
+                    <div class=" flex justify-between rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
+                        <h1 class="font-bold pl-2">Users</h1>
+                        <button  class="pl-2 bg-black">ajouter tags</button>
+                    </div>
+                </div>
+                <div>
+                     <div class="container mx-auto p-6 max-w-lg bg-white rounded-lg shadow-lg">
+                         <h1 class="text-2xl font-semibold mb-4 text-center text-gray-800">Ajouter des tags</h1>
+                         <input id="tags-input" name="tags" placeholder="Add tags" 
+                                class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                         <button id="submit" 
+                                 class="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                           Submit
+                         </button>
+                     </div>
+
+                </div>
+                <div class="flex flex-row flex-wrap flex-grow mt-6">
+                    <div class="container p-4">
+                        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+                             <div>tags</div>
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </section>
+
+
+         <!-- section categorise -->     
+         <section  id="categorise" class="section hidden w-full">
+            <div id="main" class="mx-4 main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px;">
+                <div class="pt-3" style="background-color: #dadfdc;">
+                    <div class="rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
+                        <h1 class="font-bold pl-2">Users</h1>
+                    </div>
+                </div>
+                <div class="flex flex-row flex-wrap flex-grow mt-6">
+                    <div class="container p-4">
+                        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+                            <table class="min-w-full table-auto">
+                                <thead class="bg-gray-800 text-white">
+                                    <tr>
+                                        <th class="px-6 py-4 text-left hidden">#</th>
+                                        <th class="px-6 py-4 text-left">Nom</th>
+                                        <th class="px-6 py-4 text-left">Email</th>
+                                        <th class="px-6 py-4 text-left">Role</th>
+                                        <th class="px-6 py-4 text-left">Activation</th>
+                                        <th class="px-6 py-4 text-left">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-700">
+                                    <?php foreach($utilisateurs as $user):?>
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="px-6 py-4 hidden"></td>
+                                        <td class="px-6 py-4"><?php echo $user['user_name'] ;?></td>
+                                        <td class="px-6 py-4"><?php echo $user['user_email'] ;?></td>
+                                        <td class="px-6 py-4"><?php echo $user['user_role'] ;?></td>
+                                        <td class="px-6 py-4"><?php echo $user['status'] ;?></td>
+                                        <td class="px-6 py-4">
+
+                                            <form method="POST" action="../controller/activationUser.php" class="inline ml-2">
+                                                   <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>" />
+                                                   <button type="submit" name="changer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir de déactiver ou activer cet utilisateur ?')"
+                                                    class="text-white py-2 px-3 rounded hover:bg-red-600">Active</button>
+                                            </form>
+                                            <form method="POST" action="../controller/supprimer_user.php" class="inline ml-2">
+                                                    <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>" />
+                                                    <button type="submit" name="supprimer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')"
+                                                     class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach;?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </section>
+
     </div>
 </main>
+<script>
+        const tagInput = new Tagify(document.getElementById('tags-input'));
 
+        document.getElementById('submit').addEventListener('click', function () {
+            const tags = tagInput.value.map(tag => tag.value);
+            fetch('insert-tags.php', {
+                method: 'POST',
+                body: JSON.stringify({ postId: 1, tags }),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Update displayed tags
+                    // const tagsDisplay = document.getElementById('tags-display');
+                    // tagsDisplay.innerHTML = tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
+                    tagInput.removeAllTags(); // Clear input
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
