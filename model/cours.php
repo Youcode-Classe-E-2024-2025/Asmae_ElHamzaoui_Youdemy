@@ -77,7 +77,6 @@ class CoursMarkdown extends Cours {
 
 
 class CoursVideo extends Cours {
-
     public function ajouterCours() {
         // Préparer la requête d'insertion pour le type "video"
         $stmt = $this->pdo->prepare('INSERT INTO cours (titre_cours, image_cours, desc_cours, content_type, content_cours) 
@@ -91,14 +90,15 @@ class CoursVideo extends Cours {
         ]);
         $this->id_cours = $this->pdo->lastInsertId(); // Récupérer l'ID généré
     }
-
-
-     
     
-       
-
-
+    public function afficherCours() {
+        // Afficher le contenu vidéo (ici, on suppose que le contenu est une URL vers une vidéo)
+        echo "<div class='video-content'>
+                <video controls>
+                    <source src='" . htmlspecialchars($this->getContentCours()) . "' type='video/mp4'>
+                    Votre navigateur ne supporte pas la vidéo.
+                </video>
+              </div>";
+    }
 }
-
-
 ?>
