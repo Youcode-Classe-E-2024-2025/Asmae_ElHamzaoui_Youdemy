@@ -61,7 +61,11 @@ abstract class Cours {
         ]);
     }
 
-   
+    // Méthode pour supprimer un cours
+    public function supprimerCours() {
+        $stmt = $this->pdo->prepare('DELETE FROM cours WHERE id_cours = ?');
+        $stmt->execute([$this->getIdCours()]);
+    }
 
   
 }
