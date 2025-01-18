@@ -146,7 +146,7 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="hidden" name="projet_id" value="<?php echo $course['id_cours']; ?>" />
                                 <button type="submit" name="modifier" style="color: rgb(185, 212, 243) ;background-color:#24508c;" class="text-white py-2 px-3 rounded hover:bg-yellow-600"><i class="fa-solid fa-pen-to-square"></i></button>
                             </form>
-                            <form method="POST" action="../controllers/supprimer_projet.php" class="inline ml-2">
+                            <form method="POST" action="../controllers/supprimer_cours.php" class="inline ml-2">
                                 <input type="hidden" name="projet_id" value="<?php echo $course['id_cours']; ?>" />
                                 <button type="submit" name="supprimer" style="color: rgb(185, 212, 243) ;background-color:#24508c;" class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
                             </form>
