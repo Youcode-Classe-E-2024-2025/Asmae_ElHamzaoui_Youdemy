@@ -1,5 +1,5 @@
 <?php
-class Cours {
+abstract class Cours {
     private $id_cours;
     private $titre_cours;
     private $image_cours;
@@ -41,6 +41,11 @@ class Cours {
     public function setContentCours($content_cours) { $this->content_cours = $content_cours;  }
 
    
+     // Méthode abstraite pour ajouter un cours en fonction du type de contenu
+     abstract public function ajouterCours();
+
+     // Méthode abstraite pour afficher un cours en fonction du type de contenu
+     abstract public function afficherCours();
 
   
 }
