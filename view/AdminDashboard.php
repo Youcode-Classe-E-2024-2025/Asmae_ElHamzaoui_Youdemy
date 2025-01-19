@@ -448,99 +448,83 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
   
 
        <!-- section Tags -->
-<section id="tags" class="section hidden w-full">
-    <div id="main" class="mx-4 main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px;">
-        <div class="pt-3" style="background-color: #dadfdc;">
-            <div class="flex justify-between rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
-                <h1 class="font-bold pl-2">Users</h1>
-                <button class="pl-2 bg-black">Ajouter tags</button>
-            </div>
-        </div>
-        <div>
-            <form action="../controller/tagController.php" method="POST">
-                <div class="container mx-auto p-6 max-w-lg bg-white rounded-lg shadow-lg">
-                    <h1 class="text-2xl font-semibold mb-4 text-center text-gray-800">Ajouter des tags</h1>
-                    <!-- Champ pour saisir les tags -->
-                    <input id="tags-input" name="tags" placeholder="Add tags (séparés par des virgules)" 
-                           class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                    <!-- Champ caché pour envoyer les tags sous forme de texte -->
-                    <input type="hidden" id="tags-hidden" name="tags_hidden" />
-                    <!-- Bouton pour soumettre -->
-                    <button type="submit" id="submit" 
-                            class="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        Submit
-                    </button>
-                </div>
-            </form>
-        </div>
-
-
-        <div class="tags" id="tags-display">
-                <?php foreach ($tags as $tag): ?>
-                    <span class="tag">#<?= $tag['name_tags'] ?></span>
-                <?php endforeach; ?>
-            </div>
-    </div>
-</section>
-
-
-         <!-- section categorise -->     
-         <section  id="categorise" class="section hidden w-full">
-            <div id="main" class="mx-4 main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px;">
-                <div class="pt-3" style="background-color: #dadfdc;">
-                    <div class="rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
-                        <h1 class="font-bold pl-2">Users</h1>
-                    </div>
-                </div>
-                <div class="flex flex-row flex-wrap flex-grow mt-6">
-                    <div class="container p-4">
-                        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
-                            <table class="min-w-full table-auto">
-                                <thead class="bg-gray-800 text-white">
-                                    <tr>
-                                        <th class="px-6 py-4 text-left hidden">#</th>
-                                        <th class="px-6 py-4 text-left">Nom</th>
-                                        <th class="px-6 py-4 text-left">Email</th>
-                                        <th class="px-6 py-4 text-left">Role</th>
-                                        <th class="px-6 py-4 text-left">Activation</th>
-                                        <th class="px-6 py-4 text-left">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-gray-700">
-                                    <?php foreach($utilisateurs as $user):?>
-                                    <tr class="border-b hover:bg-gray-50">
-                                        <td class="px-6 py-4 hidden"></td>
-                                        <td class="px-6 py-4"><?php echo $user['user_name'] ;?></td>
-                                        <td class="px-6 py-4"><?php echo $user['user_email'] ;?></td>
-                                        <td class="px-6 py-4"><?php echo $user['user_role'] ;?></td>
-                                        <td class="px-6 py-4"><?php echo $user['status'] ;?></td>
-                                        <td class="px-6 py-4">
-
-                                            <form method="POST" action="../controller/activationUser.php" class="inline ml-2">
-                                                   <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>" />
-                                                   <button type="submit" name="changer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir de déactiver ou activer cet utilisateur ?')"
-                                                    class="text-white py-2 px-3 rounded hover:bg-red-600">Active</button>
-                                            </form>
-                                            <form method="POST" action="../controller/supprimer_user.php" class="inline ml-2">
-                                                    <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>" />
-                                                    <button type="submit" name="supprimer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')"
-                                                     class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    <?php endforeach;?>
-                                </tbody>
-                            </table>
+        <section id="tags" class="section hidden w-full">
+                <div id="main" class="mx-4 main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px;">
+                    <div class="pt-3" style="background-color: #dadfdc;">
+                        <div class="flex justify-between rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
+                            <h1 class="font-bold pl-2">Tags</h1>
+                            <button class="pl-2 bg-black">Ajouter tags</button>
                         </div>
                     </div>
+                    <div>
+                        <form action="../controller/tagController.php" method="POST">
+                            <div class="container mx-auto p-6 max-w-lg bg-white rounded-lg shadow-lg">
+                                <h1 class="text-2xl font-semibold mb-4 text-center text-gray-800">Ajouter des tags</h1>
+                                <!-- Champ pour saisir les tags -->
+                                <input id="tags-input" name="tags" placeholder="Add tags (séparés par des virgules)" 
+                                       class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                                <!-- Champ caché pour envoyer les tags sous forme de texte -->
+                                <input type="hidden" id="tags-hidden" name="tags_hidden" />
+                                <!-- Bouton pour soumettre -->
+                                <button type="submit" id="submit" 
+                                        class="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+            
+            
+                    <div class="tags" id="tags-display">
+                            <?php foreach ($tags as $tag): ?>
+                                <span class="tag">#<?= $tag['name_tags'] ?></span>
+                            <?php endforeach; ?>
+                        </div>
                 </div>
-           </div>
         </section>
 
+
+
+         <!-- section categories -->
+         <section i id="categorise" class="section hidden w-full">
+                <div id="main" class="mx-4 main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px;">
+                    <div class="pt-3" style="background-color: #dadfdc;">
+                        <div class="flex justify-between rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
+                            <h1 class="font-bold pl-2">Categories</h1>
+                            <button class="pl-2 bg-black">Ajouter categorie</button>
+                        </div>
+                    </div>
+                    <div>
+                        <form action="../controller/categorieController.php" method="POST">
+                            <div class="container mx-auto p-6 max-w-lg bg-white rounded-lg shadow-lg">
+                                <h1 class="text-2xl font-semibold mb-4 text-center text-gray-800">Ajouter des catégories</h1>
+                                <!-- Champ pour saisir les categorie-->
+                                <input id="categorie-input" name="categories" placeholder="Ajouter categories" 
+                                       class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                                <!-- Champ caché pour envoyer les tags sous forme de texte -->
+                                <input type="hidden" id="categories-hidden" name="categories_hidden" />
+                                <!-- Bouton pour soumettre -->
+                                <button type="submit" id="submit2" 
+                                        class="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+            
+            
+                    <div class="categories" id="categories-display">
+                            <?php foreach ($categories as $categorie): ?>
+                                <span class="categorie">#<?= $categorie['name_categorie'] ?></span>
+                            <?php endforeach; ?>
+                        </div>
+                </div>
+        </section>
+    
     </div>
 </main>
 <script>
- // Initialisation de Tagify
+ // Initialisation de Tagify pour les tags
 const tagInput = new Tagify(document.getElementById('tags-input'));
 
 // Au clic sur le bouton de soumission
@@ -559,6 +543,25 @@ document.getElementById('submit').addEventListener('click', function (event) {
     document.getElementById('tags-hidden').value = JSON.stringify(tags);
 });
 
+
+ // Initialisation de Tagify pour les catégories
+ const categorieInput = new Tagify(document.getElementById('categorie-input'));
+
+// Au clic sur le bouton de soumission
+document.getElementById('submit2').addEventListener('click', function (event) {
+    // Récupère les tags ajoutés et crée un tableau de leurs valeurs
+    const categories = categorieInput.value.map(categorie => categorie.value);
+
+    // Vérifie si au moins un tag a été ajouté
+    if (categories.length === 0) {
+        alert('Veuillez ajouter au moins un tag');
+        event.preventDefault(); // Empêche la soumission du formulaire si aucun tag n'est ajouté
+        return;
+    }
+
+    // Remplir le champ caché avec les valeurs des tags
+    document.getElementById('categories-hidden').value = JSON.stringify(categories);
+});
 
 </script>
 </body>
