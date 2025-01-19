@@ -51,19 +51,8 @@ class user{
 
 
 
-  // Méthode pour hasher le mot de passe
-  public function hashPassword() {
-    return password_hash($this->passWord_user, PASSWORD_DEFAULT);
-}
-// Méthode pour vérifier le mot de passe
-public function verifyPassword($inputPassword, $hashedPassword) {
-    return password_verify($inputPassword, $hashedPassword);
-}
-
 public function registerUser($db) {
     // Hash du mot de passe
-    $hashedPassword = $this->hashPassword();
-
 
     // Si l'utilisateur est un enseignant, on laisse is_valid = 0 (en attente de validation)
     if ($this->role_user == 'enseignant') {
@@ -82,42 +71,53 @@ public function registerUser($db) {
     $query = "INSERT INTO user (user_name, user_email, user_password, user_role, is_valid, status) 
               VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $db->prepare($query);
-    $stmt->execute([$this->nom_user, $this->email_user, $hashedPassword, $this->role_user, $this->is_valid, $this->status]);
+    $stmt->execute([$this->nom_user, $this->email_user, password_hash($this->passWord_user, PASSWORD_DEFAULT), $this->role_user, $this->is_valid, $this->status]);
 
     // Retourner l'ID de l'utilisateur
     return $db->lastInsertId();
 }
+public static function seConnecter($email_user, $mot_de_passe) {
+    global $pdo;
 
-
-// Méthode pour se connecter
-public function loginUser($db, $inputPassword) {
-    
-    // Requête pour récupérer l'utilisateur par email
+    // Préparation de la requête pour récupérer l'utilisateur
     $query = "SELECT * FROM user WHERE user_email = ?";
-    $stmt = $db->prepare($query);
-    $stmt->execute([$this->email_user]);
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([$email_user]);
+    $utilisateur = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Vérifier si l'utilisateur existe
-    $userdb = $stmt->fetch();
-    var_dump($userdb) ;
-    if ($userdb) {
-        // Vérifier le mot de passe avec la méthode verifyPassword
-        if (password_verify($inputPassword, $userdb['user_password'])) {
-            // Vérifier si l'utilisateur est validé
-            if ($userdb['is_valid'] == 1) {
-                return "Connexion réussie.";
-            } else if ($userdb['is_valid'] == 0 && $userdb['user_role'] == 'enseignant') {
-                return "Votre compte est en cours de traitement. Veuillez patienter que l'admin le valide.";
-            } else {
-                return "Votre compte est désactivé pour le moment.";
-            }
-        } else {
-            return "Mot de passe incorrect.";
-        }
-    } else {
-        return "Utilisateur non trouvé.";
+    // Si l'utilisateur n'existe pas, on renvoie null
+    if (!$utilisateur) {
+        echo "Utilisateur non trouvé.";
+        return null;
     }
+
+    // Vérification du mot de passe
+    if ($utilisateur && password_verify($mot_de_passe, $utilisateur['user_password'])) {
+        // Crée l'objet utilisateur avec toutes les propriétés, y compris is_valid
+        $user = new user(
+            $utilisateur['id_user'],
+            $utilisateur['user_name'],
+            $utilisateur['user_email'],
+            $utilisateur['user_password'],
+            $utilisateur['user_role']
+        );
+
+        // Définir les propriétés is_valid et status
+        $user->setIsValid($utilisateur['is_valid']);
+        $user->setStatus($utilisateur['status']);
+
+        return $user;
+    }
+
+    // Si le mot de passe est incorrect
+    echo "Mot de passe incorrect.";
+    return null;
 }
+
+
+
+
+
 
  // Méthode pour valider un utilisateur (par l'administrateur)
  public function validateUser($db) {

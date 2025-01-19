@@ -58,9 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user->setIsValid(1); // L'étudiant est validé directement
     }
 
-    // Hacher le mot de passe
-    $hashedPassword = $user->hashPassword();
-    $user->setPasswordUser($hashedPassword); // Mettre à jour le mot de passe avec le mot de passe haché
 
     // Insérer l'utilisateur dans la base de données
     try {
