@@ -4,6 +4,19 @@ require_once '../model/cours.php';
 
 // Vérifier si la requête est une soumission de formulaire POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Vérifier si l'utilisateur est connecté et récupérer son ID (id_user)
+    session_start();
+    if (!isset($_SESSION['user_id'])) {
+        die("Vous devez être connecté pour ajouter un cours.");
+    }
+    $id_user = $_SESSION['user_id'];  // ID du professeur connecté
+
+    // Récupérer l'identifiant de la catégorie du formulaire
+    $id_categorie = $_POST['id_categorie'] ?? null;
+    if ($id_categorie === null) {
+        die("La catégorie du cours doit être spécifiée.");
+    }
+
     // Récupérer les données du formulaire
     $titre_cours = $_POST['title'];
     $image_cours = $_POST['image_cours'] ?? null; // Image est optionnelle
@@ -54,9 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Créer une instance de la classe correspondante (Markdown ou Vidéo)
     if ($content_type === 'markdown') {
-        $cours = new CoursMarkdown($titre_cours, $desc_cours, $content_type, $content_cours, $image_cours);
+        $cours = new CoursMarkdown($titre_cours, $desc_cours, $content_type, $content_cours, $id_user, $id_categorie, $image_cours);
     } elseif ($content_type === 'video') {
-        $cours = new CoursVideo($titre_cours, $desc_cours, $content_type, $content_cours, $image_cours);
+        $cours = new CoursVideo($titre_cours, $desc_cours, $content_type, $content_cours, $id_user, $id_categorie, $image_cours);
     } else {
         die("Type de contenu invalide.");
     }

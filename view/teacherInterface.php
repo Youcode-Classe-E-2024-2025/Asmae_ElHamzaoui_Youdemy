@@ -3,11 +3,17 @@
 require_once '../config/db.php';
 require_once '../model/cours.php'; // Assure-toi d'inclure ce fichier
 session_start();
+$id_user=$_SESSION['user_id'];
 // Récupérer tous les cours depuis la base de données
-$stmt = $pdo->query("SELECT * FROM cours");
+$stmt = $pdo->prepare("SELECT * FROM cours WHERE id_user = ?");
+$stmt->execute([$id_user]); // Paramètre lié directement à l'execute
 $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 echo $_SESSION['user_id'];
+
+$stmt1 = $pdo->prepare('select * from categories');
+$stmt1->execute();
+$categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -188,7 +194,14 @@ echo $_SESSION['user_id'];
                          <button type="button" id="videoButton" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none">Importer une vidéo</button>
                      </div>
                  </div>
-         
+                 <div class="mb-4">
+                      <label for="id_categorie" class="block text-gray-700 font-semibold">Sélectionner une catégorie:</label>
+                      <select name="id_categorie" class="w-80 px-4 py-2 border border-gray-300 rounded mt-1 focus:ring-2 focus:ring-blue-500">
+                         <?php foreach ($categories as $categorie): ?>
+                            <option value="<?php echo $categorie['id_categorie']; ?>"><?php echo $categorie['name_categorie']; ?></option>
+                         <?php endforeach; ?>
+                      </select>
+                </div>
                  <div id="markdownContainer" class="hidden mb-4">
                      <textarea id="markdownContent" name="markdownContent" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                  </div>
