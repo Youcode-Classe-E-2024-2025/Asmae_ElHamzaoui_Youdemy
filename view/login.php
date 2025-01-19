@@ -24,7 +24,7 @@
 
             <!-- Section droite (formulaire d'inscription) -->
             <div>
-                <form id="loginForm" action="../controllers/loginController.php" method="POST" onsubmit="return validateLoginForm()">
+                <form id="loginForm" action="../controller/loginController.php" method="POST" onsubmit="return validateLoginForm()">
                     
                     <!-- Récupération des informations utilisateur -->
                     <div class="mb-4">

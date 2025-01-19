@@ -53,18 +53,17 @@ class user{
 
   // Méthode pour hasher le mot de passe
   public function hashPassword() {
-    return password_hash($this->passWord_user, PASSWORD_BCRYPT);
+    return password_hash($this->passWord_user, PASSWORD_DEFAULT);
 }
-
- // Méthode pour vérifier si le mot de passe est correct
- public function verifyPassword($inputPassword) {
-    return password_verify($inputPassword, $this->passWord_user);
+// Méthode pour vérifier le mot de passe
+public function verifyPassword($inputPassword, $hashedPassword) {
+    return password_verify($inputPassword, $hashedPassword);
 }
-
 
 public function registerUser($db) {
     // Hash du mot de passe
     $hashedPassword = $this->hashPassword();
+
 
     // Si l'utilisateur est un enseignant, on laisse is_valid = 0 (en attente de validation)
     if ($this->role_user == 'enseignant') {
@@ -92,20 +91,22 @@ public function registerUser($db) {
 
 // Méthode pour se connecter
 public function loginUser($db, $inputPassword) {
+    
     // Requête pour récupérer l'utilisateur par email
     $query = "SELECT * FROM user WHERE user_email = ?";
     $stmt = $db->prepare($query);
     $stmt->execute([$this->email_user]);
 
     // Vérifier si l'utilisateur existe
-    $user = $stmt->fetch();
-    if ($user){
-        // Vérifier le mot de passe
-        if ($this->verifyPassword($inputPassword)) {
+    $userdb = $stmt->fetch();
+    var_dump($userdb) ;
+    if ($userdb) {
+        // Vérifier le mot de passe avec la méthode verifyPassword
+        if (password_verify($inputPassword, $userdb['user_password'])) {
             // Vérifier si l'utilisateur est validé
-            if ($user['is_valid'] == 1) {
+            if ($userdb['is_valid'] == 1) {
                 return "Connexion réussie.";
-            } else if ($user['is_valid'] == 0 && $user['user_role'] == 'enseignant') {
+            } else if ($userdb['is_valid'] == 0 && $userdb['user_role'] == 'enseignant') {
                 return "Votre compte est en cours de traitement. Veuillez patienter que l'admin le valide.";
             } else {
                 return "Votre compte est désactivé pour le moment.";
