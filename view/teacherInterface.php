@@ -9,7 +9,6 @@ $stmt = $pdo->prepare("SELECT * FROM cours WHERE id_user = ?");
 $stmt->execute([$id_user]); // Paramètre lié directement à l'execute
 $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-echo $_SESSION['user_id'];
 
 $stmt1 = $pdo->prepare('select * from categories');
 $stmt1->execute();

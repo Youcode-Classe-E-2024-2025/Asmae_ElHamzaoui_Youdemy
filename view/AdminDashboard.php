@@ -330,11 +330,13 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                                         <td class="px-6 py-4 hidden"></td>
                                         <td class="px-6 py-4"><?php echo htmlspecialchars($course['titre_cours']); ?></td>
                                         <td class="px-6 py-4"><?php echo htmlspecialchars($course['desc_cours']); ?></td>
-                                        <td class="px-6 py-4">Paris</td>
+                                        <td class="px-6 py-4"><?php echo htmlspecialchars($course['desc_cours']); ?></td>
                                         <td class="px-6 py-4">Paris</td>
                                         <td class="px-6 py-4">
-                                            <button class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-user-check"></i></button>
-                                            <button class="text-red-500 hover:text-red-700 ml-2"><i class="fa-solid fa-trash"></i></button>
+                                            <form method="POST" action="../controller/supprimer_courAdmin.php" class="inline ml-2">
+                                              <input type="hidden" name="cours_id" value="<?php echo $course['id_cours']; ?>" />
+                                              <button type="submit" name="supprimer" class="text-red-500 hover:text-red-700 ml-2"><i class="fa-solid fa-trash"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
