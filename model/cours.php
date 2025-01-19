@@ -79,7 +79,7 @@ abstract class Cours {
             $stmt = $db->prepare('SELECT id_user FROM cours WHERE id_cours = ?');
             $stmt->execute([$this->getIdCours()]);
             $cours = $stmt->fetch();
-
+    
             if ($cours['id_user'] === $this->getIdUser()) {  // Vérifier que le cours appartient bien au professeur
                 $stmt = $db->prepare('DELETE FROM cours WHERE id_cours = ?');
                 $stmt->execute([$this->getIdCours()]);
@@ -88,6 +88,7 @@ abstract class Cours {
             }
         }
     }
+    
 }
 
 class CoursMarkdown extends Cours {
