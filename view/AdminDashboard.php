@@ -15,10 +15,14 @@ $utilisateurs = user::getAllUsers($pdo);
 // Récupérer tous les cours depuis la base de données
 $stmt = $pdo->query("SELECT * FROM cours");
 $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-;
+
 $stmt = $pdo->prepare('select * from tags');
 $stmt->execute();
 $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt1 = $pdo->prepare('select * from categories');
+$stmt1->execute();
+$categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
