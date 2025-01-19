@@ -32,14 +32,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($user) {
           
             // Vérifier si l'utilisateur est validé
-            if ($user->getIsValid() == 1) {
+            if ($user->getIsValid() == 1 && $user->getStatus() == 'activer') {
+
+                if($user->getRoleUser() == 'Enseignant'){
+                   // Connexion réussie, rediriger l'utilisateur vers la page d'accueil ou tableau de bord
+                $_SESSION['user_id'] = $user->getIdUser();
+                $_SESSION['user_name'] = $user->getNomUser();
+                $_SESSION['user_role'] = $user->getRoleUser();
+                
+                header('Location: ../view/teacherInterface.php');
+                exit;
+                }elseif($user->getRoleUser() == 'Etudiant'){
                 // Connexion réussie, rediriger l'utilisateur vers la page d'accueil ou tableau de bord
                 $_SESSION['user_id'] = $user->getIdUser();
                 $_SESSION['user_name'] = $user->getNomUser();
                 $_SESSION['user_role'] = $user->getRoleUser();
                 
-                header("Location: ../dashboard.php"); // Redirection vers la page d'accueil ou tableau de bord
+                header('Location: ../view/studentInterface.php');
                 exit;
+                }else{
+                    header('Location: ../view/AdminDashboard.php');
+                    exit;
+                }
+                
             } else {
                 // L'utilisateur n'est pas validé
                 $errors['validation'] = "Votre compte n'est pas encore validé.";
