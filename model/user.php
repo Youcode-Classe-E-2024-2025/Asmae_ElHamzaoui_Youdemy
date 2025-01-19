@@ -76,7 +76,7 @@ public function registerUser($db) {
 
     // Si la propriété status n'est pas définie, on lui attribue la valeur par défaut 'désactiver'
     if (empty($this->status)) {
-        $this->status = 'désactiver'; // Valeur par défaut pour la colonne status
+        $this->status = 'activer'; // Valeur par défaut pour la colonne status
     }
 
     // Requête d'insertion de l'utilisateur

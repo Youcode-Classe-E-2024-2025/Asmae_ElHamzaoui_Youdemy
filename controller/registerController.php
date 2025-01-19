@@ -3,6 +3,9 @@
 require_once '../config/db.php'; // Connexion à la base de données
 require_once '../model/user.php'; // Classe User
 
+// Démarrer la session
+session_start();
+
 // Vérifier si le formulaire est soumis
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Récupérer les données envoyées par le formulaire
@@ -65,9 +68,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $userId = $user->registerUser($pdo);
         
         if ($userId) {
-            echo "Connection réussie !";
-            // direction vers la page de confirmation 
-            // header('Location: login.php');
+            // Vérification de l'état de l'utilisateur après l'insertion
+            $existingUser = User::getUserByEmail($pdo, $email_user);
+
+            // Vérifier si l'utilisateur est désactivé
+            if ($existingUser['status'] === 'désactiver') {
+                echo "Votre compte est désactivé. Vous ne pouvez pas vous connecter pour le moment.";
+                exit;
+            }
+
+            // Vérification de la validation de l'utilisateur
+            if ($existingUser['is_valid'] == 0) {
+                // Si l'utilisateur est enseignant et en attente de validation
+                echo "Votre compte est en attente de validation. Veuillez patienter que l'admin le valide.";
+                exit;
+            }
+
+            // Stocker les informations de l'utilisateur dans la session
+            $_SESSION['user_id'] = $existingUser['id_user'];
+            $_SESSION['user_name'] = $existingUser['user_name'];
+            $_SESSION['user_email'] = $existingUser['user_email'];
+            $_SESSION['user_role'] = $existingUser['user_role'];
+
+            // Si l'utilisateur est valide et activé, procéder à la redirection
+            if ($role_user == 'Enseignant') {
+                // Rediriger vers la page Enseignant
+                header('Location: ../view/teacherInterface.php');
+                exit;
+            } else {
+                // Rediriger vers la page Étudiant
+                header('Location: ../view/studentInterface.php');
+                exit;
+            }
         } else {
             echo "Une erreur est survenue lors de l'inscription.";
         }
