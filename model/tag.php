@@ -48,13 +48,13 @@ class Tag {
 
         if ($this->id === null) {
             // Si l'ID est null, c'est une nouvelle insertion
-            $stmt = $this->pdo->prepare("INSERT INTO tags (name) VALUES (:name) ON DUPLICATE KEY UPDATE name = :name");
-            $stmt->execute([':name' => $this->name]);
+            $stmt = $this->pdo->prepare("INSERT INTO tags (name_tags) VALUES (:name_tags) ON DUPLICATE KEY UPDATE name_tags = :name_tags");
+            $stmt->execute([':name_tags' => $this->name]);
             $this->id = $this->pdo->lastInsertId();
         } else {
             // Si l'ID existe déjà, on met à jour le tag
-            $stmt = $this->pdo->prepare("UPDATE tags SET name = :name WHERE id = :id");
-            $stmt->execute([':name' => $this->name, ':id' => $this->id]);
+            $stmt = $this->pdo->prepare("UPDATE tags SET name = :name WHERE id_tags = :id");
+            $stmt->execute([':name_tags' => $this->name, ':id_tags' => $this->id]);
         }
     }
 
@@ -64,8 +64,8 @@ class Tag {
             throw new Exception("Impossible de supprimer un tag sans ID.");
         }
 
-        $stmt = $this->pdo->prepare("DELETE FROM tags WHERE id = :id");
-        $stmt->execute([':id' => $this->id]);
+        $stmt = $this->pdo->prepare("DELETE FROM tags WHERE id_tags = :id_tags");
+        $stmt->execute([':id_tags' => $this->id]);
     }
 
     // Méthode pour récupérer tous les tags
@@ -77,12 +77,12 @@ class Tag {
 
     // Méthode pour récupérer un tag par son ID
     public static function getById($pdo, $id) {
-        $stmt = $pdo->prepare("SELECT * FROM tags WHERE id = :id");
-        $stmt->execute([':id' => $id]);
+        $stmt = $pdo->prepare("SELECT * FROM tags WHERE id_tags = :id_tags");
+        $stmt->execute([':id_tags' => $id]);
         $tagData = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($tagData) {
-            return new Tag($pdo, $tagData['name'], $tagData['id']);
+            return new Tag($pdo, $tagData['name_tags'], $tagData['id_tags']);
         }
 
         return null; // Si le tag n'existe pas
@@ -90,12 +90,12 @@ class Tag {
 
     // Méthode pour récupérer un tag par son nom
     public static function getByName($pdo, $name) {
-        $stmt = $pdo->prepare("SELECT * FROM tags WHERE name = :name");
-        $stmt->execute([':name' => $name]);
+        $stmt = $pdo->prepare("SELECT * FROM tags WHERE name_tags = :name_tags");
+        $stmt->execute([':name_tags' => $name]);
         $tagData = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($tagData) {
-            return new Tag($pdo, $tagData['name'], $tagData['id']);
+            return new Tag($pdo, $tagData['name_tags'], $tagData['id_tags']);
         }
 
         return null; // Si le tag n'existe pas

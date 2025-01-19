@@ -15,6 +15,11 @@ $utilisateurs = user::getAllUsers($pdo);
 // Récupérer tous les cours depuis la base de données
 $stmt = $pdo->query("SELECT * FROM cours");
 $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+;
+$stmt = $pdo->prepare('select * from tags');
+$stmt->execute();
+$tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -442,36 +447,41 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </section>
   
 
-        <!-- section Tags -->     
-        <section  id="tags" class="section hidden w-full">
-            <div id="main" class="mx-4 main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px;">
-                <div class="pt-3" style="background-color: #dadfdc;">
-                    <div class=" flex justify-between rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
-                        <h1 class="font-bold pl-2">Users</h1>
-                        <button  class="pl-2 bg-black">ajouter tags</button>
-                    </div>
+       <!-- section Tags -->
+<section id="tags" class="section hidden w-full">
+    <div id="main" class="mx-4 main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px;">
+        <div class="pt-3" style="background-color: #dadfdc;">
+            <div class="flex justify-between rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
+                <h1 class="font-bold pl-2">Users</h1>
+                <button class="pl-2 bg-black">Ajouter tags</button>
+            </div>
+        </div>
+        <div>
+            <form action="../controller/tagController.php" method="POST">
+                <div class="container mx-auto p-6 max-w-lg bg-white rounded-lg shadow-lg">
+                    <h1 class="text-2xl font-semibold mb-4 text-center text-gray-800">Ajouter des tags</h1>
+                    <!-- Champ pour saisir les tags -->
+                    <input id="tags-input" name="tags" placeholder="Add tags (séparés par des virgules)" 
+                           class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    <!-- Champ caché pour envoyer les tags sous forme de texte -->
+                    <input type="hidden" id="tags-hidden" name="tags_hidden" />
+                    <!-- Bouton pour soumettre -->
+                    <button type="submit" id="submit" 
+                            class="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        Submit
+                    </button>
                 </div>
-                <div>
-                     <div class="container mx-auto p-6 max-w-lg bg-white rounded-lg shadow-lg">
-                         <h1 class="text-2xl font-semibold mb-4 text-center text-gray-800">Ajouter des tags</h1>
-                         <input id="tags-input" name="tags" placeholder="Add tags" 
-                                class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                         <button id="submit" 
-                                 class="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                           Submit
-                         </button>
-                     </div>
+            </form>
+        </div>
 
-                </div>
-                <div class="flex flex-row flex-wrap flex-grow mt-6">
-                    <div class="container p-4">
-                        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
-                             <div>tags</div>
-                        </div>
-                    </div>
-                </div>
-           </div>
-        </section>
+
+        <div class="tags" id="tags-display">
+                <?php foreach ($tags as $tag): ?>
+                    <span class="tag">#<?= $tag['name_tags'] ?></span>
+                <?php endforeach; ?>
+            </div>
+    </div>
+</section>
 
 
          <!-- section categorise -->     
@@ -530,27 +540,26 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </main>
 <script>
-        const tagInput = new Tagify(document.getElementById('tags-input'));
+ // Initialisation de Tagify
+const tagInput = new Tagify(document.getElementById('tags-input'));
 
-        document.getElementById('submit').addEventListener('click', function () {
-            const tags = tagInput.value.map(tag => tag.value);
-            fetch('insert-tags.php', {
-                method: 'POST',
-                body: JSON.stringify({ postId: 1, tags }),
-                headers: { 'Content-Type': 'application/json' }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    // Update displayed tags
-                    // const tagsDisplay = document.getElementById('tags-display');
-                    // tagsDisplay.innerHTML = tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
-                    tagInput.removeAllTags(); // Clear input
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            });
-        });
-    </script>
+// Au clic sur le bouton de soumission
+document.getElementById('submit').addEventListener('click', function (event) {
+    // Récupère les tags ajoutés et crée un tableau de leurs valeurs
+    const tags = tagInput.value.map(tag => tag.value);
+
+    // Vérifie si au moins un tag a été ajouté
+    if (tags.length === 0) {
+        alert('Veuillez ajouter au moins un tag');
+        event.preventDefault(); // Empêche la soumission du formulaire si aucun tag n'est ajouté
+        return;
+    }
+
+    // Remplir le champ caché avec les valeurs des tags
+    document.getElementById('tags-hidden').value = JSON.stringify(tags);
+});
+
+
+</script>
 </body>
 </html>
