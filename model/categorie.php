@@ -48,13 +48,13 @@ class Category {
 
         if ($this->id === null) {
             // Si l'ID est null, c'est une nouvelle insertion
-            $stmt = $this->pdo->prepare("INSERT INTO categories (name_category) VALUES (:name_category) ON DUPLICATE KEY UPDATE name_category = :name_category");
-            $stmt->execute([':name_category' => $this->name]);
+            $stmt = $this->pdo->prepare("INSERT INTO categories (name_categorie) VALUES (:name_categorie) ON DUPLICATE KEY UPDATE name_categorie = :name_categorie");
+            $stmt->execute([':name_categorie' => $this->name]);
             $this->id = $this->pdo->lastInsertId();
         } else {
             // Si l'ID existe déjà, on met à jour la catégorie
-            $stmt = $this->pdo->prepare("UPDATE categories SET name_category = :name_category WHERE id_category = :id_category");
-            $stmt->execute([':name_category' => $this->name, ':id_category' => $this->id]);
+            $stmt = $this->pdo->prepare("UPDATE categories SET name_categorie = :name_categorie WHERE id_categorie = :id_categorie");
+            $stmt->execute([':name_categorie' => $this->name, ':id_category' => $this->id]);
         }
     }
 
@@ -64,8 +64,8 @@ class Category {
             throw new Exception("Impossible de supprimer une catégorie sans ID.");
         }
 
-        $stmt = $this->pdo->prepare("DELETE FROM categories WHERE id_category = :id_category");
-        $stmt->execute([':id_category' => $this->id]);
+        $stmt = $this->pdo->prepare("DELETE FROM categories WHERE id_categorie = :id_categorie");
+        $stmt->execute([':id_categorie' => $this->id]);
     }
 
     // Méthode pour récupérer toutes les catégories
@@ -77,12 +77,12 @@ class Category {
 
     // Méthode pour récupérer une catégorie par son ID
     public static function getById($pdo, $id) {
-        $stmt = $pdo->prepare("SELECT * FROM categories WHERE id_category = :id_category");
-        $stmt->execute([':id_category' => $id]);
+        $stmt = $pdo->prepare("SELECT * FROM categories WHERE id_categorie = :id_categorie");
+        $stmt->execute([':id_categorie' => $id]);
         $categoryData = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($categoryData) {
-            return new Category($pdo, $categoryData['name_category'], $categoryData['id_category']);
+            return new Category($pdo, $categoryData['name_categorie'], $categoryData['id_categorie']);
         }
 
         return null; // Si la catégorie n'existe pas
@@ -90,12 +90,12 @@ class Category {
 
     // Méthode pour récupérer une catégorie par son nom
     public static function getByName($pdo, $name) {
-        $stmt = $pdo->prepare("SELECT * FROM categories WHERE name_category = :name_category");
-        $stmt->execute([':name_category' => $name]);
+        $stmt = $pdo->prepare("SELECT * FROM categories WHERE name_categorie = :name_categorie");
+        $stmt->execute([':name_categorie' => $name]);
         $categoryData = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($categoryData) {
-            return new Category($pdo, $categoryData['name_category'], $categoryData['id_category']);
+            return new Category($pdo, $categoryData['name_categorie'], $categoryData['id_categorie']);
         }
 
         return null; // Si la catégorie n'existe pas
