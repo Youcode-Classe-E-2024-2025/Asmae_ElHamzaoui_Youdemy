@@ -30,7 +30,7 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Cours</title>
     <style>
          /* Le modal sera placé au-dessus du contenu avec un fond semi-transparent */
-         #modal, #modal-assigner {
+         #modal, #modal2 {
             display: none; /* Initialement caché */
             position: fixed; /* Pour qu'il soit fixé en haut de la page */
             top: 0;
@@ -125,6 +125,7 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <i class="fa-duotone fa-solid fa-gear gear-icon" style="color:#f0a500;font-size:17px;" onclick="toggleMenu()"></i>
             <div class="menu" id="menu">
                 <a onclick="ajouterCour()" class="text-center" style="color:#1c4933">Ajouter cours</a>
+                <a onclick="associerTag()" class="text-center" style="color:#1c4933">Associer tag</a>
                 <a href="deconnexion.php" class="text-center hover:text-gray-400" style="color:#1c4933">log out</a>
             </div>
         </div>
@@ -205,17 +206,6 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                          <?php endforeach; ?>
                       </select>
                 </div>
-                <div class="mb-4">
-                   <label class="block text-gray-700 font-semibold">Tags :</label>
-                      <div class="space-y-2 mt-2">
-                          <?php foreach ($tags as $tag): ?>
-                              <div>
-                                  <input type="checkbox" id="tag_<?php echo $tag['id_tags']; ?>" name="tags[]" value="<?php echo $tag['id_tags']; ?>" class="mr-2">
-                                  <label for="tag_<?php echo $tag['id_tags']; ?>" class="text-sm text-gray-700"><?php echo $tag['name_tags']; ?></label>
-                              </div>
-                          <?php endforeach; ?>
-                      </div>
-                </div>
                  <div id="markdownContainer" class="hidden mb-4">
                      <textarea id="markdownContent" name="markdownContent" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                  </div>
@@ -230,19 +220,78 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
            </form>
          </div>
         </div>
+
+        <!-- Modal pour associer des tag à un cours -->
+        <div class="hidden fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50 mt-10" id="modal2">
+          <div class="bg-white rounded-lg p-8 w-96 shadow-lg modal-content">
+            <h1 class="text-2xl font-semibold mb-4">Ajouter un cours</h1>
+            <form id="courseForm" action="../controller/courController.php" method="POST" enctype="multipart/form-data">
+              
+              <!-- Section Catégorie avec scroll -->
+              <div class="mb-4">
+                <label for="id_categorie" class="block text-gray-700 font-semibold">Sélectionner une catégorie:</label>
+                <div class="max-h-24 overflow-y-auto border border-gray-300 rounded mt-1">
+                  <select name="id_categorie" class="w-full px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                    <?php foreach ($coursData as $course): ?>
+                      <option value="<?php echo $course['id_cours']; ?>"><?php echo $course['titre_cours']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Section Tags avec scroll -->
+              <div class="mb-4">
+                <label class="block text-gray-700 font-semibold">Tags :</label>
+                <div class="space-y-2 mt-2 max-h-48 overflow-y-auto p-2 border border-gray-300 rounded">
+                  <?php foreach ($tags as $tag): ?>
+                    <div>
+                      <input type="checkbox" id="tag_<?php echo $tag['id_tags']; ?>" name="tags[]" value="<?php echo $tag['id_tags']; ?>" class="mr-2">
+                      <label for="tag_<?php echo $tag['id_tags']; ?>" class="text-sm text-gray-700"><?php echo $tag['name_tags']; ?></label>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+              
+              <div id="markdownContainer" class="hidden mb-4">
+                <textarea id="markdownContent" name="markdownContent" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+              </div>
+        
+              <div id="videoContainer" class="hidden mb-4">
+                <input type="file" id="videoFile" name="videoFile" accept="video/*" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+              </div>
+        
+              <div class="flex justify-end mt-4">
+                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">Associer des tags</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
     </div>
 
     <script>
         const modalProjet = document.getElementById('modal');
+        const modalTag = document.getElementById('modal2');
 
         function ajouterCour() {
             modalProjet.style.display = modalProjet.style.display === "flex" ? "none" : "flex"; // Toggle visibility
+        }
+
+        function associerTag() {
+            modalTag.style.display = modalTag.style.display === "flex" ? "none" : "flex"; // Toggle visibility
         }
 
         // Fermer le modal en cliquant en dehors du contenu
         window.addEventListener('click', function(event) {
             if (event.target === modalProjet) {
                 modalProjet.style.display = "none";
+            }
+        });
+
+         // Fermer le modal en cliquant en dehors du contenu
+         window.addEventListener('click', function(event) {
+            if (event.target === modalTag) {
+                modalTag.style.display = "none";
             }
         });
 
