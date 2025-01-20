@@ -266,7 +266,6 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </form>
           </div>
         </div>
-
     </div>
 
     <script>
