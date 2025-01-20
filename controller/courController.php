@@ -79,11 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $cours->ajouterCours($pdo);
 
          // Assigner des tags au cours (si des tags ont été sélectionnés)
-         if (isset($_POST['tags']) && !empty($_POST['tags'])) {
+        if (isset($_POST['tags']) && !empty($_POST['tags'])) {
             $tags = $_POST['tags']; // Récupérer les IDs des tags sélectionnés
             $cours->assignerTags($pdo, $tags); // Appeler la méthode pour associer les tags au cours
         }
-        
         // Rediriger ou afficher un message de succès
         header("Location: ../view/teacherInterface.php"); 
     } catch (Exception $e) {

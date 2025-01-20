@@ -9,10 +9,14 @@ $stmt = $pdo->prepare("SELECT * FROM cours WHERE id_user = ?");
 $stmt->execute([$id_user]); // Paramètre lié directement à l'execute
 $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 $stmt1 = $pdo->prepare('select * from categories');
 $stmt1->execute();
 $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+
+// Récupérer tous les tags depuis la base de données
+$query = "SELECT id_tags, name_tags FROM tags";
+$stmt = $pdo->query($query);
+$tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -200,6 +204,17 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                             <option value="<?php echo $categorie['id_categorie']; ?>"><?php echo $categorie['name_categorie']; ?></option>
                          <?php endforeach; ?>
                       </select>
+                </div>
+                <div class="mb-4">
+                   <label class="block text-gray-700 font-semibold">Tags :</label>
+                      <div class="space-y-2 mt-2">
+                          <?php foreach ($tags as $tag): ?>
+                              <div>
+                                  <input type="checkbox" id="tag_<?php echo $tag['id_tags']; ?>" name="tags[]" value="<?php echo $tag['id_tags']; ?>" class="mr-2">
+                                  <label for="tag_<?php echo $tag['id_tags']; ?>" class="text-sm text-gray-700"><?php echo $tag['name_tags']; ?></label>
+                              </div>
+                          <?php endforeach; ?>
+                      </div>
                 </div>
                  <div id="markdownContainer" class="hidden mb-4">
                      <textarea id="markdownContent" name="markdownContent" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
