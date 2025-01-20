@@ -436,7 +436,7 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                                                    <button type="submit" name="changer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir de déactiver ou activer cet utilisateur ?')"
                                                     class="text-white py-2 px-3 rounded hover:bg-red-600">Active</button>
                                             </form>
-                                            <form method="POST" action="../controller/supprimer_user.php" class="inline ml-2">
+                                            <form method="POST" action="../controller/supprimerUser.php?id_user=<?php echo $user['id_user']; ?>" class="inline ml-2">
                                                     <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>" />
                                                     <button type="submit" name="supprimer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')"
                                                      class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>

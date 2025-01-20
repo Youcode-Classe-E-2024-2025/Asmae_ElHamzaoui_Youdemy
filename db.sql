@@ -46,3 +46,15 @@ CREATE TABLE cours_tags (
     FOREIGN KEY (id_cours) REFERENCES cours(id_cours) ON DELETE CASCADE, -- Lien avec la table des cours
     FOREIGN KEY (id_tags) REFERENCES tags(id_tags) ON DELETE CASCADE    -- Lien avec la table des tags
 );
+
+-- Table d'inscription entre les étudiants et les cours
+CREATE TABLE inscription (
+    id_user INT,          -- Référence à l'utilisateur (étudiant)
+    id_cours INT,         -- Référence au cours
+    date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Date d'inscription
+    status ENUM('en_attente', 'valide', 'annule') NOT NULL DEFAULT 'en_attente', -- Status de l'inscription
+    FOREIGN KEY (id_user) REFERENCES user(id_user) ON DELETE CASCADE,   -- Lien avec la table des utilisateurs
+    FOREIGN KEY (id_cours) REFERENCES cours(id_cours) ON DELETE CASCADE  -- Lien avec la table des cours
+);
+
+
