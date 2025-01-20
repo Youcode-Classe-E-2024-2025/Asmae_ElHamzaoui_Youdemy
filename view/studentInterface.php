@@ -121,7 +121,7 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="flex justify-between items-center">
             <h2 class="text-3xl font-bold mb-4" style="color:#1c4933">Tout les cours</h2>
             <div class="flex justify-center gap-5 my-4">
-                <a href="consultation.php" style="color: #dadfdc ;background-color:#1c4933;" class="text-white py-2 px-3 rounded hover:bg-red-600">Mes cours</a>
+                <a href="sectionCours.php" style="color: #dadfdc ;background-color:#1c4933;" class="text-white py-2 px-3 rounded hover:bg-red-600">Mes cours</a>
             </div>
         </div>
 
