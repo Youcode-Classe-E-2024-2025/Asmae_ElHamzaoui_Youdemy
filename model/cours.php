@@ -117,6 +117,18 @@ abstract class Cours {
             $resultat = $stmt->fetch();
             return $resultat['nombre_etudiants']; // Retourne le nombre d'étudiants inscrits
         }
+
+        
+        public function compterCoursProfesseur($db, $id_user) {
+            // Requête SQL pour compter le nombre de cours créés par le professeur
+            $stmt = $db->prepare('
+                SELECT COUNT(*) AS nombre_cours
+                FROM cours
+                WHERE id_user = ?');
+            $stmt->execute([$id_user]);
+            $resultat = $stmt->fetch();
+            return $resultat['nombre_cours']; // Retourne le nombre de cours créés par le professeur
+        }
         
 }
 
