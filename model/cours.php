@@ -88,9 +88,24 @@ abstract class Cours {
             }
         }
     }
-
-   
     
+        // Méthode pour assigner des tags à un cours
+        public function assignerTags($db, $tags) {
+            if ($this->getIdCours() !== null) {
+                // Supprimer les anciens tags avant d'ajouter les nouveaux (si nécessaire)
+                $stmt = $db->prepare('DELETE FROM cours_tags WHERE id_cours = ?');
+                $stmt->execute([$this->getIdCours()]);
+    
+                // Ajouter les nouveaux tags
+                foreach ($tags as $tagId) {
+                    $stmt = $db->prepare('INSERT INTO cours_tags (id_cours, id_tags) VALUES (?, ?)');
+                    $stmt->execute([$this->getIdCours(), $tagId]);
+                }
+                echo "Tags assignés avec succès au cours.";
+            } else {
+                echo "Le cours n'existe pas.";
+            }
+        }    
     
 }
 
