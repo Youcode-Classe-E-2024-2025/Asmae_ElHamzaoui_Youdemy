@@ -88,6 +88,31 @@ abstract class Cours {
             }
         }
     }
+
+    public function inscrireAuCours($db, $id_cours) {
+        // Vérifier si l'utilisateur est un étudiant
+        if ($this->role_user != 'Etudiant') {
+            echo "Seuls les étudiants peuvent s'inscrire aux cours.";
+            return;
+        }
+    
+        // Vérifier si l'étudiant est déjà inscrit à ce cours
+        $stmt = $db->prepare('SELECT COUNT(*) FROM inscription WHERE id_user = ? AND id_cours = ?');
+        $stmt->execute([$this->id_user, $id_cours]);
+        $count = $stmt->fetchColumn();
+    
+        if ($count > 0) {
+            echo "Vous êtes déjà inscrit à ce cours.";
+            return;
+        }
+    
+        // Si ce n'est pas le cas, inscrire l'étudiant
+        $stmt = $db->prepare('INSERT INTO inscription (id_user, id_cours) VALUES (?, ?)');
+        $stmt->execute([$this->id_user, $id_cours]);
+    
+        echo "Inscription réussie au cours avec succès.";
+    }
+    
     
 }
 
