@@ -107,6 +107,17 @@ abstract class Cours {
             }
         }    
     
+        public function compterEtudiantsInscrits($db, $id_cours) {
+            // Requête SQL pour compter le nombre d'étudiants inscrits dans ce cours spécifique
+            $stmt = $db->prepare('
+                SELECT COUNT(DISTINCT id_user) AS nombre_etudiants
+                FROM inscription
+                WHERE id_cours = ?');
+            $stmt->execute([$id_cours]);
+            $resultat = $stmt->fetch();
+            return $resultat['nombre_etudiants']; // Retourne le nombre d'étudiants inscrits
+        }
+        
 }
 
 class CoursMarkdown extends Cours {
