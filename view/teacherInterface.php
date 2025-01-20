@@ -225,7 +225,7 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="hidden fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50 mt-10" id="modal2">
           <div class="bg-white rounded-lg p-8 w-96 shadow-lg modal-content">
             <h1 class="text-2xl font-semibold mb-4">Ajouter un cours</h1>
-            <form id="courseForm" action="../controller/courController.php" method="POST" enctype="multipart/form-data">
+            <form id="courseForm" action="../controller/associerTagCours.php" method="POST" enctype="multipart/form-data">
               
               <!-- Section Catégorie avec scroll -->
               <div class="mb-4">
