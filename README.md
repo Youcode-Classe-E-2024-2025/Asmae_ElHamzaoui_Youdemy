@@ -96,7 +96,7 @@ cd Asmae_ElHmazaoui_Youdeme
 - **Style et animations** : Ajoutés avec CSS(tailwind) et JavaScript.
 
 ## Structure du Projet
- ![Structure du projet](assets/images/structure.png)
+ ![Structure du projet](assets/images/structureCours.png)
 ## Outils Utilisés
 
 - **Serveur Web Apache** : Hébergement du projet localement.
