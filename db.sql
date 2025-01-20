@@ -14,6 +14,10 @@ CREATE TABLE user (
 ALTER TABLE user
 ADD COLUMN status ENUM('activer', 'désactiver') NOT NULL DEFAULT 'désactiver';
 
+UPDATE user
+SET user_role = 'Admin'
+WHERE id_user = 25;
+
 -- Table des cours
 CREATE TABLE cours (
     id_cours INT PRIMARY KEY AUTO_INCREMENT,
