@@ -28,10 +28,10 @@ La plateforme de cours en ligne Youdemy vise à révolutionner l’apprentissage
 -  Lien vers le repository GitHub contenant :[Repo · Asmae_Elhamzaoui_Youdemy](https://github.com/Youcode-Classe-E-2024-2025/Asmae_ElHamzaoui_Youdemy)
 
 -  Le diagramme de class :
- ![Structure du projet](images/DC.png)
+ ![Structure du projet](assets/images/DC.png)
 
 -  Le diagramme du cas d'utilisation :
- ![Structure du projet](images/DUS.png)
+ ![Structure du projet](assets/images/DUS.png)
 
 ## Installation
 
@@ -96,7 +96,7 @@ cd Asmae_ElHmazaoui_Youdeme
 - **Style et animations** : Ajoutés avec CSS(tailwind) et JavaScript.
 
 ## Structure du Projet
- ![Structure du projet](images/structure.png)
+ ![Structure du projet](assets/images/structure.png)
 ## Outils Utilisés
 
 - **Serveur Web Apache** : Hébergement du projet localement.
