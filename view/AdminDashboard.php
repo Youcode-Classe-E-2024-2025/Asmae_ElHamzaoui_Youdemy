@@ -2,9 +2,10 @@
 
 // Inclure le fichier de connexion à la base de données et les classes de cours
 require_once '../config/db.php';
-require_once '../model/cours.php'; // Assure-toi d'inclure ce fichier
+require_once '../model/cours.php'; 
 // Connexion à la base de données
 require_once '../model/user.php';
+require_once '../model/categorie.php';
 
 //récupérer les professeurs
 $professeurs = user::getProfesseurs($pdo);  // Appel statique de la méthode pour récupérer les professeurs
@@ -24,6 +25,52 @@ $stmt1 = $pdo->prepare('select * from categories');
 $stmt1->execute();
 $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
+// total des cours 
+$stmt2 = $pdo->prepare('SELECT COUNT(*) AS total_cours FROM cours');
+$stmt2->execute();
+$resultat2 = $stmt2->fetch();
+$totalCours = $resultat2['total_cours'];  // Correction du nom de la clé
+
+// catégorie qui a plus de cours
+$stmt3 = $pdo->prepare('SELECT c.name_categorie, COUNT(co.id_cours) AS nombre_cours
+FROM categories c
+JOIN cours co ON c.id_categorie = co.id_categorie
+GROUP BY c.id_categorie
+ORDER BY nombre_cours DESC LIMIT 1');
+$stmt3->execute();
+$row = $stmt3->fetch();
+
+
+
+//  Le cours avec le plus d'étudiants inscrits
+$stmt4 = $pdo->prepare('SELECT co.id_cours, co.titre_cours, COUNT(i.id_user) AS nombre_etudiants
+FROM cours co
+JOIN inscription i ON co.id_cours = i.id_cours
+GROUP BY co.id_cours
+ORDER BY nombre_etudiants DESC
+LIMIT 1');
+$stmt4->execute();
+$resultat4 = $stmt4->fetch();
+$titreCours = $resultat4['titre_cours'];
+$nombreEtudiants = $resultat4['nombre_etudiants'];
+
+
+//   Les Top 3 enseignants 
+$stmt5 = $pdo->prepare("SELECT u.id_user, u.user_name, COUNT(DISTINCT co.id_cours) AS total_cours, COUNT(DISTINCT i.id_user) AS total_etudiants
+FROM user u
+JOIN cours co ON u.id_user = co.id_user
+LEFT JOIN inscription i ON co.id_cours = i.id_cours
+WHERE u.user_role = 'Enseignant' 
+GROUP BY u.id_user
+ORDER BY total_etudiants DESC, total_cours DESC
+LIMIT 3;");
+$stmt5->execute();
+$resultats5 = $stmt5->fetchAll();
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,6 +83,8 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
     <meta name="description" content="description here">
     <meta name="keywords" content="keywords,here">
     <script src="../assets/admin.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet">
@@ -131,7 +180,7 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
         <!-- Analytics Section -->
         <section id="analytics" class="section">
-            <div id="main" class="main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px ; min-width:100%">
+            <div id="main" class="main-content flex-1 bg-gray-100 ml-8 md:mt-2 pb-24 md:pb-5" style="margin-top:40px ; min-width:100%;">
                 <div class="pt-3" style="background-color: #dadfdc;">
                     <div class="rounded-tl-3xl rounded-tr-3xl bg-gradient-to-r from-green-900 to-gray-800 p-4 shadow text-2xl text-white">
                         <h1 class="font-bold pl-2">Analytics</h1>
@@ -147,8 +196,14 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="rounded-full p-5 bg-green-600"><i class="fa fa-wallet fa-2x fa-inverse"></i></div>
                                 </div>
                                 <div class="flex-1 text-right md:text-center">
-                                    <h2 class="font-bold uppercase text-gray-600">Total Revenue</h2>
-                                   <p class="font-bold text-3xl">$3249 <span class="text-green-500"><i class="fas fa-caret-up"></i></span></p>
+                                    <h2 class="font-bold uppercase text-gray-600">3 top enseignant</h2>
+                                   <p>
+                                    <?php 
+                                       foreach ($resultats5 as $row2) {
+                                        // Afficher les informations de chaque enseignant
+                                           echo '-' . $row2['user_name'];
+                                        }?>
+                                     <span class="text-green-500"><i class="fas fa-caret-up"></i></span></p>
                                 </div>
                             </div>
                         </div>
@@ -162,23 +217,24 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="rounded-full p-5 bg-pink-600"><i class="fas fa-users fa-2x fa-inverse"></i></div>
                                 </div>
                                 <div class="flex-1 text-right md:text-center">
-                                    <h2 class="font-bold uppercase text-gray-600">Total Users</h2>
-                                    <p class="font-bold text-3xl">249 <span class="text-pink-500"><i class="fas fa-exchange-alt"></i></span></p>
+                                    <h2 class="font-bold uppercase text-gray-600"> <?php echo 'Catégorie : '.$row['name_categorie'];?></h2>
+                                    <?php echo 'Nombre de cours : '.$row['nombre_cours'];?>
+                                    <span class="text-pink-500"><i class="fas fa-exchange-alt"></i></span>
                                 </div>
                             </div>
                         </div>
                         <!--/Metric Card-->
                     </div>
-                    <div class="w-full md:w-1/2 xl:w-1/3 p-6">
+                    <div class="w-full md:w-1/2 xl:w-1/3 p-5">
                         <!--Metric Card-->
                         <div class="bg-gradient-to-b from-yellow-200 to-yellow-100 border-b-4 border-yellow-600 rounded-lg shadow-xl p-5">
                             <div class="flex flex-row items-center">
-                                <div class="flex-shrink pr-4">
-                                    <div class="rounded-full p-5 bg-yellow-600"><i class="fas fa-user-plus fa-2x fa-inverse"></i></div>
+                                <div class="flex-shrink">
+                                    <div class="rounded-full p-3 bg-yellow-600"><i class="fas fa-user-plus fa-2x fa-inverse"></i></div>
                                 </div>
                                 <div class="flex-1 text-right md:text-center">
-                                    <h2 class="font-bold uppercase text-gray-600">New Users</h2>
-                                    <p class="font-bold text-3xl">2 <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span></p>
+                                    <h2 class="font-bold uppercase text-gray-600"><?php echo 'Cours :' . $titreCours ;?> <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span></h2>
+                                    <?php echo 'total étudiant :' . $nombreEtudiants;?>
                                 </div>
                             </div>
                         </div>
@@ -187,118 +243,10 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
 
-                <div class="flex flex-row flex-wrap flex-grow mt-12">
-
-                    <div class="w-full md:w-1/2 xl:w-1/3 p-6">
-                        <!--Graph Card-->
-                        <div class="bg-white border-transparent rounded-lg shadow-xl">
-                            <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
-                                <h class="font-bold uppercase text-gray-600">Graph</h>
-                            </div>
-                            <div class="p-5">
-                                <canvas id="chartjs-7" class="chartjs" width="undefined" height="undefined"></canvas>
-                                <script>
-                                    new Chart(document.getElementById("chartjs-7"), {
-                                        "type": "bar",
-                                        "data": {
-                                            "labels": ["January", "February", "March", "April"],
-                                            "datasets": [{
-                                                "label": "Page Impressions",
-                                                "data": [10, 20, 30, 40],
-                                                "borderColor": "rgb(255, 99, 132)",
-                                                "backgroundColor": "rgba(255, 99, 132, 0.2)"
-                                            }, {
-                                                "label": "Adsense Clicks",
-                                                "data": [5, 15, 10, 30],
-                                                "type": "line",
-                                                "fill": false,
-                                                "borderColor": "rgb(54, 162, 235)"
-                                            }]
-                                        },
-                                        "options": {
-                                            "scales": {
-                                                "yAxes": [{
-                                                    "ticks": {
-                                                        "beginAtZero": true
-                                                    }
-                                                }]
-                                            }
-                                        }
-                                    });
-                                </script>
-                            </div>
-                        </div>
-                        <!--/Graph Card-->
-                    </div>
-    
-                    <div class="w-full md:w-1/2 xl:w-1/3 p-6">
-                        <!--Graph Card-->
-                        <div class="bg-white border-transparent rounded-lg shadow-xl">
-                            <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
-                                <h2 class="font-bold uppercase text-gray-600">Graph</h2>
-                            </div>
-                            <div class="p-5">
-                                <canvas id="chartjs-0" class="chartjs" width="undefined" height="undefined"></canvas>
-                                <script>
-                                    new Chart(document.getElementById("chartjs-0"), {
-                                        "type": "line",
-                                        "data": {
-                                            "labels": ["January", "February", "March", "April", "May", "June", "July"],
-                                            "datasets": [{
-                                                "label": "Views",
-                                                "data": [65, 59, 80, 81, 56, 55, 40],
-                                                "fill": false,
-                                                "borderColor": "rgb(75, 192, 192)",
-                                                "lineTension": 0.1
-                                            }]
-                                        },
-                                        "options": {}
-                                    });
-                                </script>
-                            </div>
-                        </div>
-                        <!--/Graph Card-->
-                    </div>
-
-                    <div class="w-full md:w-1/2 xl:w-1/3 p-6">
-                        <!--Graph Card-->
-                        <div class="bg-white border-transparent rounded-lg shadow-xl">
-                            <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
-                                <h2 class="font-bold uppercase text-gray-600">Graph</h2>
-                            </div>
-                            <div class="p-5">
-                                <canvas id="chartjs-1" class="chartjs" width="undefined" height="undefined"></canvas>
-                                <script>
-                                    new Chart(document.getElementById("chartjs-1"), {
-                                        "type": "bar",
-                                        "data": {
-                                            "labels": ["January", "February", "March", "April", "May", "June", "July"],
-                                            "datasets": [{
-                                                "label": "Likes",
-                                                "data": [65, 59, 80, 81, 56, 55, 40],
-                                                "fill": false,
-                                                "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"],
-                                                "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"],
-                                                "borderWidth": 1
-                                            }]
-                                        },
-                                        "options": {
-                                            "scales": {
-                                                "yAxes": [{
-                                                    "ticks": {
-                                                        "beginAtZero": true
-                                                    }
-                                                }]
-                                            }
-                                        }
-                                    });
-                                </script>
-                            </div>
-                        </div>
-                        <!--/Graph Card-->
-                    </div>
-
-                </div>
+                <h2 class="text-center mt-[30px]">Graphiques : Distribution des cours, Professeurs et Etudiants</h2>
+                <section class="flex mt-[80px] justify-center">
+                   <canvas id="pieChart" style="width:50%;max-width:400px;"></canvas>
+                </section>
            </div>
         </section>
 
@@ -531,10 +479,10 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 </main>
 <script>
  // Initialisation de Tagify pour les tags
-const tagInput = new Tagify(document.getElementById('tags-input'));
-
+    const tagInput = new Tagify(document.getElementById('tags-input'));
+ 
 // Au clic sur le bouton de soumission
-document.getElementById('submit').addEventListener('click', function (event) {
+   document.getElementById('submit').addEventListener('click', function (event) {
     // Récupère les tags ajoutés et crée un tableau de leurs valeurs
     const tags = tagInput.value.map(tag => tag.value);
 
@@ -569,6 +517,33 @@ document.getElementById('submit2').addEventListener('click', function (event) {
     document.getElementById('categories-hidden').value = JSON.stringify(categories);
 });
 
+</script>
+
+<script>
+    // Récupérer les données PHP dans JavaScript
+    var xValues = ['Cours'];
+    var yValues = [<?php echo $totalCours; ?>];
+    var barColors = ['blue'];
+
+    // Affichage du graphique en camembert (pie chart)
+    new Chart("pieChart", {
+        type: "pie",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Nombre total des cours"
+            }
+        }
+    });
+
+   
 </script>
 </body>
 </html>
