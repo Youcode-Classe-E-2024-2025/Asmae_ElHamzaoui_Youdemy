@@ -51,6 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 header('Location: ../view/studentInterface.php');
                 exit;
                 }else{
+                    $_SESSION['user_id'] = $user->getIdUser();
+                    $_SESSION['user_name'] = $user->getNomUser();
+                    $_SESSION['user_role'] = $user->getRoleUser();
+                    
                     header('Location: ../view/AdminDashboard.php');
                     exit;
                 }

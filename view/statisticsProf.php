@@ -2,6 +2,11 @@
 // Inclure le fichier de connexion à la base de données
 require_once '../config/db.php';
 session_start();
+
+if(!isset($_SESSION['user_id'])){
+    echo "vous devez etre connecter";
+    exit;
+}
 $id_user = $_SESSION['user_id'];  // Récupérer l'ID de l'utilisateur (professeur)
 
 // Requête pour compter le nombre d'étudiants inscrits aux cours de ce professeur

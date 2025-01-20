@@ -1,9 +1,12 @@
 <?php
 
-// Inclure le fichier de connexion à la base de données et les classes de cours
+session_start();
+if(!isset($_SESSION['user_id'])){
+    echo "vous devez etre connecter";
+    exit;
+}
 require_once '../config/db.php';
 require_once '../model/cours.php'; 
-// Connexion à la base de données
 require_once '../model/user.php';
 require_once '../model/categorie.php';
 

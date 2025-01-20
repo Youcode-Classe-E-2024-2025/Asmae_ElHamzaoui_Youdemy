@@ -3,7 +3,12 @@
 require_once '../config/db.php';
 require_once '../model/cours.php'; // Assure-toi d'inclure ce fichier
 session_start();
-$id_user=$_SESSION['user_id'];
+if(!isset($_SESSION['user_id'])){
+    echo "vous devez etre connecter";
+    exit;
+}
+$id_user = $_SESSION['user_id'];  // Récupérer l'ID de l'utilisateur (professeur)
+
 // Récupérer tous les cours depuis la base de données
 $stmt = $pdo->prepare("SELECT * FROM cours WHERE id_user = ?");
 $stmt->execute([$id_user]); // Paramètre lié directement à l'execute

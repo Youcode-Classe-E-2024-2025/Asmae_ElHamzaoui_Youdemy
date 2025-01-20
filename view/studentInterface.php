@@ -3,7 +3,10 @@
 require_once '../config/db.php';
 require_once '../model/cours.php'; // Assure-toi d'inclure ce fichier
 session_start();
-// Récupérer tous les cours depuis la base de données
+if(!isset($_SESSION['user_id'])){
+    echo "vous devez etre connecter";
+    exit;
+}
 $stmt = $pdo->query("SELECT * FROM cours");
 $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
