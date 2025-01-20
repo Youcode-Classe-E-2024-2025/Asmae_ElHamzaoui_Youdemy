@@ -7,7 +7,6 @@ session_start();
 $stmt = $pdo->query("SELECT * FROM cours");
 $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-echo $_SESSION['user_id'];
 ?>
 
 <!DOCTYPE html>
@@ -139,8 +138,9 @@ echo $_SESSION['user_id'];
                                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style="color:#24508c"><?php echo htmlspecialchars($course['titre_cours']); ?></h5>
                             </a>
                             <p class="mb-3 font-bold text-gray-700 dark:text-gray-400"><?php echo htmlspecialchars($course['desc_cours']); ?></p> 
-                            <form class="inline ml-1">
-                               <a href="sectionCours.php?id_cour=<?php echo $course['id_cours']; ?>" style="color: rgb(185, 212, 243) ;background-color:#24508c;"  class="text-white font-bold p-2 px-2 rounded hover:bg-red-600 w-24 h-24">Inscription</a>
+                            <form class="inline ml-1" action="../controller/courInscription.php" method="POST">
+                                <input type="hidden"  name="id_cours" value="<?php echo $course['id_cours']; ?>">
+                               <button type="submit" style="color: rgb(185, 212, 243) ;background-color:#24508c;"  class="text-white font-bold p-2 px-2 rounded hover:bg-red-600 w-24 h-24">Inscription</button>
                             </form>
                         </div>
                     </div>

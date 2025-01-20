@@ -153,11 +153,31 @@ public function toggleUserActivation($db) {
 
 // Méthode pour récupérer un utilisateur par son ID
 public static function getUserById($db, $userId) {
+    // Requête pour récupérer l'utilisateur par son ID
     $query = "SELECT * FROM user WHERE id_user = ?";
     $stmt = $db->prepare($query);
     $stmt->execute([$userId]);
-    return $stmt->fetch();
+    
+    // Récupérer les données sous forme de tableau associatif
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Vérifier si des données ont été retournées
+    if ($data) {
+        // Si des données existent, retourner un objet de type 'user'
+        return new self(
+            $data['id_user'],
+            $data['user_name'],
+            $data['user_email'],
+            $data['user_password'],
+            $data['user_role']
+        );
+    }
+    
+    // Retourner null si aucun utilisateur n'a été trouvé
+    return null;
 }
+
+
 
  // Méthode pour récupérer un utilisateur par son email
  public static function getUserByEmail($db, $email) {
@@ -200,6 +220,29 @@ public static function getAllUsers($db) {
     return $stmt->fetchAll(); // Retourne un tableau de tous les utilisateurs
 }
 
+public function inscrireAuCours($db, $id_cours) {
+    // Vérifier si l'utilisateur est un étudiant
+    if ($this->role_user != 'Etudiant') {
+        echo "Seuls les étudiants peuvent s'inscrire aux cours.";
+        return;
+    }
+
+    // Vérifier si l'étudiant est déjà inscrit à ce cours
+    $stmt = $db->prepare('SELECT COUNT(*) FROM inscription WHERE id_user = ? AND id_cours = ?');
+    $stmt->execute([$this->id_user, $id_cours]);
+    $count = $stmt->fetchColumn();
+
+    if ($count > 0) {
+        echo "Vous êtes déjà inscrit à ce cours.";
+        return;
+    }
+
+    // Si ce n'est pas le cas, inscrire l'étudiant
+    $stmt = $db->prepare('INSERT INTO inscription (id_user, id_cours) VALUES (?, ?)');
+    $stmt->execute([$this->id_user, $id_cours]);
+
+    echo "Inscription réussie au cours avec succès.";
+}
 
 }
 ?>
