@@ -4,7 +4,7 @@ require_once '../config/db.php';
 require_once '../model/cours.php'; // Assure-toi d'inclure ce fichier
 
 // Paramètres pour la pagination
-$limit = 6; // Nombre de cours par page
+$limit = 12; // Nombre de cours par page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
@@ -46,66 +46,21 @@ $totalPages = ceil($totalCours / $limit);
             overflow-x: hidden;
             overflow-y: auto;
         }
-
-        canvas {
-            display: block;
-            height: 500px;
-            width: 100%;
-            background-color: #dadfdc;
-        }
-
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            width: 100%;
-            background-color: #24508c;
-            padding: 10px 0;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            font-size: 18px;
-        }
-
-        .navbar a:hover {
-            background-color: #1a3b63;
-        }
-
-        .content {
-            padding-top: 80px;
-        }
-
-        .main-content {
-            padding-top: 80px;
-        }
     </style>
 </head>
-
 <body>
-    <!-- Barre de navigation -->
-    <header>
-        <div class="flex items-center justify-between py-4 px-6 bg-white">
-            <img src="../assets/images/logo.png" alt="Logo" class="logo">
-            <nav class="space-x-8 md:flex">
-                <a href="home.php" class="nav-item">Home</a>
-                <a href="AboutUs.php" class="nav-item">About us</a>
-                <a href="Cours.php" class="nav-item">Cours</a>
-            </nav>
-            <div class="auth-buttons space-x-4">
-                <a href="direction.php">Sign Up</a>
-                <a href="login.php">Log In</a>
-            </div>
-        </div>
-    </header>
+    
+    <!-- Header -->
+   <?php 
+   include_once 'header.php';
+   ?>
+
 
     <!-- Formulaire de recherche -->
-    <div class="container mx-auto px-4 py-4">
+    <div class="container mx-auto px-4 py-4 mt-24">
         <form method="GET" action="Cours.php">
-            <input type="text" name="search" class="p-2 border rounded" placeholder="Rechercher un cours par titre..." value="<?php echo htmlspecialchars($searchTerm); ?>">
-            <button type="submit" class="p-2 ml-2 bg-blue-500 text-white rounded">Rechercher</button>
+            <input type="text" name="search" class="p-2 border rounded w-[30%]" placeholder="Rechercher un cours par titre..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+            <button type="submit" class="p-2 ml-2 text-white rounded" style="background-color:#1c4933;">Rechercher</button>
         </form>
     </div>
 
@@ -114,11 +69,11 @@ $totalPages = ceil($totalCours / $limit);
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             <?php foreach ($coursData as $course): ?>
                 <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <a href="taches_view.php?id_cours=<?php echo $course['id_cours']; ?>">
+                    <a>
                         <img class="rounded-t-lg" src="<?php echo htmlspecialchars($course['image_cours']); ?>" alt="" />
                     </a>
                     <div class="p-5">
-                        <a href="#">
+                        <a>
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style="color:#24508c"><?php echo htmlspecialchars($course['titre_cours']); ?></h5>
                         </a>
                         <p class="mb-3 font-bold text-gray-700 dark:text-gray-400"><?php echo htmlspecialchars($course['desc_cours']); ?></p>
@@ -132,13 +87,13 @@ $totalPages = ceil($totalCours / $limit);
     <div class="container mx-auto px-4 py-4 text-center">
         <div class="flex justify-center space-x-2">
             <?php if ($page > 1): ?>
-                <a href="?search=<?php echo urlencode($searchTerm); ?>&page=<?php echo $page - 1; ?>" class="px-4 py-2 bg-blue-500 text-white rounded">Précédent</a>
+                <a href="?search=<?php echo urlencode($searchTerm); ?>&page=<?php echo $page - 1; ?>" class="px-4 py-2 bg-green-900 text-white rounded">Précédent</a>
             <?php endif; ?>
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                <a href="?search=<?php echo urlencode($searchTerm); ?>&page=<?php echo $i; ?>" class="px-4 py-2 <?php echo $i == $page ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-800'; ?> rounded"><?php echo $i; ?></a>
+                <a href="?search=<?php echo urlencode($searchTerm); ?>&page=<?php echo $i; ?>" class="px-4 py-2 <?php echo $i == $page ? 'bg-green-900 text-white' : 'bg-gray-300 text-gray-800'; ?> rounded"><?php echo $i; ?></a>
             <?php endfor; ?>
             <?php if ($page < $totalPages): ?>
-                <a href="?search=<?php echo urlencode($searchTerm); ?>&page=<?php echo $page + 1; ?>" class="px-4 py-2 bg-blue-500 text-white rounded">Suivant</a>
+                <a href="?search=<?php echo urlencode($searchTerm); ?>&page=<?php echo $page + 1; ?>" class="px-4 py-2 bg-green-900 text-white rounded">Suivant</a>
             <?php endif; ?>
         </div>
     </div>
