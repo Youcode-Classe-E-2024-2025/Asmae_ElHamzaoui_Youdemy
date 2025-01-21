@@ -52,12 +52,12 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         /* Contenu du modal */
         .modal-content {
             margin: auto;
-            background-color: white;
+            background-color: #dadfdc;
             padding: 20px;
             border-radius: 10px;
             width: 80%;
             max-width: 600px;
-            max-height: 90vh; /* Limiter la hauteur du modal */
+            max-height: 80vh; /* Limiter la hauteur du modal */
             overflow-y: auto; /* Activer le défilement vertical à l'intérieur du modal */
         }
         
@@ -70,8 +70,8 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .menu {
             display: none; /* Initialement caché */
             position: absolute;
-            top: 60px; /* Place le menu juste en dessous de l'icône */
-            right: 65px;
+            top: 40px; /* Place le menu juste en dessous de l'icône */
+            right: 40px;
             background-color: #f9f9f9;
             border: 1px solid #ccc;
             padding: 5px;
@@ -127,7 +127,7 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <img src="../assets/images/logo.png" alt="Logo" class="w-12">
         </div>
         <div class="space-x-6 items-center">
-            <i class="fa-duotone fa-solid fa-gear gear-icon" style="color:#f0a500;font-size:17px;" onclick="toggleMenu()"></i>
+            <i class="fa-duotone fa-solid fa-gear gear-icon" style="color:#1c4933;font-size:25px;" onclick="toggleMenu()"></i>
             <div class="menu" id="menu">
                 <a onclick="ajouterCour()" class="text-center" style="color:#1c4933">Ajouter cours</a>
                 <a onclick="associerTag()" class="text-center" style="color:#1c4933">Associer tag</a>
@@ -141,8 +141,7 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="flex justify-between items-center">
             <h2 class="text-3xl font-bold mb-4" style="color:#1c4933">Mes cours</h2>
             <div class="flex justify-center gap-5 my-4">
-                <a href="consultation.php" style="color: #dadfdc ;background-color:#1c4933;" class="text-white py-2 px-3 rounded hover:bg-red-600">Voir consultation</a>
-                <a href="statisticsProf.php" style="color: #dadfdc ;background-color:#1c4933;" class="text-white py-2 px-3 rounded hover:bg-red-600">Statistiques</a>
+                <a href="statisticsProf.php" style="color: #dadfdc ;background-color:#1c4933;" class="text-white font-bold py-2 px-3 rounded hover:bg-red-600">Statistiques</a>
             </div>
         </div>
 
@@ -156,19 +155,19 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </a>
                         <div class="p-5">
                             <a href="#">
-                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style="color:#24508c"><?php echo htmlspecialchars($course['titre_cours']); ?></h5>
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style="color:#1c4933"><?php echo htmlspecialchars($course['titre_cours']); ?></h5>
                             </a>
                             <p class="mb-3 font-bold text-gray-700 dark:text-gray-400"><?php echo htmlspecialchars($course['desc_cours']); ?></p>
                             <form method="POST" action="modifier_cours.php?id_cour=<?php echo $course['id_cours']; ?>" class="inline ml-2">
                                 <input type="hidden" name="cours_id" value="<?php echo $course['id_cours']; ?>" />
-                                <button type="submit" name="modifier" style="color: rgb(185, 212, 243) ;background-color:#24508c;" class="text-white py-2 px-3 rounded hover:bg-yellow-600"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button type="submit" name="modifier" style="color: #1c4933 ;background-color:#dadfdc;" class="text-white py-2 px-3 rounded hover:bg-yellow-600"><i class="fa-solid fa-pen-to-square"></i></button>
                             </form>
                             <form method="POST" action="../controller/supprimer_cours.php" class="inline ml-2">
                                 <input type="hidden" name="cours_id" value="<?php echo $course['id_cours']; ?>" />
-                                <button type="submit" name="supprimer" style="color: rgb(185, 212, 243) ;background-color:#24508c;" class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
+                                <button type="submit" name="supprimer" style="color: #1c4933 ;background-color:#dadfdc;" class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
                             </form>
                             <form class="inline ml-1">
-                               <a href="detailCours.php?id_cour=<?php echo $course['id_cours']; ?>" style="color: rgb(185, 212, 243) ;background-color:#24508c;"  class="text-white font-bold p-2 px-2 rounded hover:bg-red-600 w-24 h-24">Voir détail</a>
+                               <a href="detailCours.php?id_cour=<?php echo $course['id_cours']; ?>" style="color: #1c4933 ;background-color:#dadfdc;"  class="text-white font-bold p-2 px-2 rounded hover:bg-red-600 w-24 h-24">Voir détail</a>
                             </form>
                         </div>
                     </div>
@@ -177,40 +176,39 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <!-- Modal pour ajouter un cours -->
-        <div class="hidden fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50 mt-10" id="modal">
-           <div class="bg-white rounded-lg p-8 w-96 shadow-lg modal-content">
-             <h1 class="text-2xl font-semibold mb-4">Ajouter un cours</h1>
+        <div class="hidden fixed inset-0 flex justify-center items-center  bg-opacity-50 z-50 mt-12" id="modal">
+           <div class="bg-white rounded-lg p-8 shadow-lg modal-content" style="width:80%;background-color:#dadfdc;border:2px solid #1c4933; box-shadow: 0 4px 12px rgba(127, 143, 125, 0.62);" >
+             <h1 class="text-2xl font-bold text-center mb-4 " style="color:#1c4933;">Ajouter un cours</h1>
              <form id="courseForm" action="../controller/courController.php" method="POST" enctype="multipart/form-data">
                  <div class="mb-4">
-                     <label for="title" class="block text-sm font-medium text-gray-700">Titre :</label>
-                     <input type="text" id="title" name="title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
+                     <label for="title" class="block text-sm font-bold text-gray-700">Titre :</label>
+                     <input type="text" id="title" name="title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-800" required>
                  </div>
          
                  <div class="mb-4">
-                     <label for="image_cours" class="block text-sm font-medium text-gray-700">Image (optionnelle) :</label>
-                     <input type="text" name="image_cours" id="image_cours" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                     <label for="image_cours" class="block text-sm font-bold text-gray-700">Image (optionnelle) :</label>
+                     <input type="text" name="image_cours" id="image_cours" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-800">
                  </div>
          
                  <div class="mb-4">
-                     <label for="description" class="block text-sm font-medium text-gray-700">Description :</label>
-                     <textarea id="description" name="description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required></textarea>
-                 </div>
-         
-                 <div class="mb-4">
-                     <label for="content" class="block text-sm font-medium text-gray-700">Contenu :</label>
-                     <div class="flex space-x-4">
-                         <button type="button" id="markdownButton" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none">Saisir du Markdown</button>
-                         <button type="button" id="videoButton" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none">Importer une vidéo</button>
-                     </div>
+                     <label for="description" class="block text-sm font-bold text-gray-700">Description :</label>
+                     <textarea id="description" name="description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-800" required></textarea>
                  </div>
                  <div class="mb-4">
-                      <label for="id_categorie" class="block text-gray-700 font-semibold">Sélectionner une catégorie:</label>
-                      <select name="id_categorie" class="w-80 px-4 py-2 border border-gray-300 rounded mt-1 focus:ring-2 focus:ring-blue-500">
+                      <label for="id_categorie" class="block text-gray-700 font-bold">Sélectionner une catégorie:</label>
+                      <select name="id_categorie" class="w-80 px-4 py-2 border border-gray-300 w-full rounded mt-1 focus:outline-none focus:ring-2 focus:ring-green-800">
                          <?php foreach ($categories as $categorie): ?>
                             <option value="<?php echo $categorie['id_categorie']; ?>"><?php echo $categorie['name_categorie']; ?></option>
                          <?php endforeach; ?>
                       </select>
                 </div>
+                 <div class="mb-4">
+                     <label for="content" class="block text-sm font-bold text-gray-700">Contenu :</label>
+                     <div class="flex space-x-4 mt-2">
+                         <button type="button" id="markdownButton" class="px-4 py-2 w-full text-white rounded-md hover:bg-indigo-700 focus:outline-none" style="background-color:#1c4933;">Saisir du Markdown</button>
+                         <button type="button" id="videoButton" class="px-4 py-2 w-full text-white rounded-md hover:bg-green-700 focus:outline-none" style="background-color:#1c4933;">Importer une vidéo</button>
+                     </div>
+                 </div>
                  <div id="markdownContainer" class="hidden mb-4">
                      <textarea id="markdownContent" name="markdownContent" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                  </div>
@@ -219,8 +217,8 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                      <input type="file" id="videoFile" name="videoFile" accept="video/*" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
                  </div>
          
-                 <div class="flex justify-end mt-4">
-                     <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">Ajouter le cours</button>
+                 <div class="flex justify-center  mt-4">
+                     <button type="submit" class="px-6 w-full font-bold py-2 bg-blue-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" style="background-color:#1c4933;">Ajouter le cours</button>
             </div>
            </form>
          </div>
@@ -228,13 +226,13 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <!-- Modal pour associer des tag à un cours -->
         <div class="hidden fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50 mt-10" id="modal2">
-          <div class="bg-white rounded-lg p-8 w-96 shadow-lg modal-content">
-            <h1 class="text-2xl font-semibold mb-4">Ajouter un cours</h1>
+          <div class="bg-white rounded-lg p-8 w-96 shadow-lg modal-content" style="width:80%;background-color:#dadfdc;border:2px solid #1c4933; box-shadow: 0 4px 12px rgba(127, 143, 125, 0.62);">
+            <h1 class="text-2xl font-bold text-center mb-4" style="color:#1c4933;">Associer des tags</h1>
             <form id="courseForm" action="../controller/associerTagCours.php" method="POST" enctype="multipart/form-data">
               
               <!-- Section Catégorie avec scroll -->
               <div class="mb-4">
-                <label for="id_categorie" class="block text-gray-700 font-semibold">Sélectionner une catégorie:</label>
+                <label for="id_categorie" class="block text-gray-700 font-bold">Sélectionner une catégorie:</label>
                 <div class="max-h-24 overflow-y-auto border border-gray-300 rounded mt-1">
                   <select name="id_categorie" class="w-full px-4 py-2 focus:ring-2 focus:ring-blue-500">
                     <?php foreach ($coursData as $course): ?>
@@ -246,7 +244,7 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
               
               <!-- Section Tags avec scroll -->
               <div class="mb-4">
-                <label class="block text-gray-700 font-semibold">Tags :</label>
+                <label class="block text-gray-700 font-bold">Tags :</label>
                 <div class="space-y-2 mt-2 max-h-48 overflow-y-auto p-2 border border-gray-300 rounded">
                   <?php foreach ($tags as $tag): ?>
                     <div>
@@ -256,17 +254,8 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <?php endforeach; ?>
                 </div>
               </div>
-              
-              <div id="markdownContainer" class="hidden mb-4">
-                <textarea id="markdownContent" name="markdownContent" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-              </div>
-        
-              <div id="videoContainer" class="hidden mb-4">
-                <input type="file" id="videoFile" name="videoFile" accept="video/*" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
-              </div>
-        
-              <div class="flex justify-end mt-4">
-                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">Associer des tags</button>
+              <div class="flex justify-center mt-4">
+                <button type="submit" class="px-6 w-full py-2 font-bold text-white rounded-md hover:bg-blue-700 focus:outline-none" style="background-color:#1c4933;">Associer des tags</button>
               </div>
             </form>
           </div>
