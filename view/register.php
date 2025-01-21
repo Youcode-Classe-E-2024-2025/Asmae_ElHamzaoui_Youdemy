@@ -11,9 +11,6 @@ $role = isset($_GET['role']) ? $_GET['role'] : null;
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../assets/register.js"></script>
-    <style>
-        /* Tu peux garder ton CSS personnalisé ici si nécessaire */
-    </style>
 </head>
 <body>
 

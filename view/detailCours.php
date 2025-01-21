@@ -4,6 +4,7 @@ require 'vendor/erusev/parsedown/Parsedown.php';
 
 require_once '../config/db.php';
 require_once '../model/cours.php';
+require_once '../model/categorie.php';
 
 // Vérifier si un ID de cours est passé dans l'URL
 if (isset($_GET['id_cour'])) {
@@ -28,6 +29,16 @@ if (isset($_GET['id_cour'])) {
         // Convertir le contenu markdown en HTML
         $course['content_cours'] = $parsedown->text($course['content_cours']);
     }
+
+    $stmt = $pdo->prepare('
+    SELECT t.name_tags
+    FROM tags t
+    JOIN cours_tags ct ON t.id_tags = ct.id_tags
+    WHERE ct.id_cours = :id_cours
+    ');
+    $stmt->execute(['id_cours' => $cours_id]);
+     // Récupérer toutes les lignes correspondantes
+     $tags = $stmt->fetchAll();
 } else {
     die('ID de cours non spécifié');
 }
@@ -40,10 +51,46 @@ if (isset($_GET['id_cour'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détail du Cours</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+         body {
+            background-color:  #dadfdc;
+        }
+         /* Style de la barre de navigation */
+         .navbar {
+            background-color:rgb(255, 255, 255);
+            padding: 1rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+        }
+
+        .navbar a:hover {
+            color: #f0a500;
+        }
+    </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="flex items-center">
+            <img src="../assets/images/logo.png" alt="Logo" class="w-12">
+        </div>
+        <div class="space-x-6 items-center">
+        <a href="teacherInterface.php" class="text-center font-bold hover:text-gray-400" style="color:#1c4930">Retour aux cours</a>
+        </div>
+    </nav>
     <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold text-center mb-6">Détail du Cours: <?php echo htmlspecialchars($course['titre_cours']); ?></h1>
+        <h1 class="text-3xl font-bold text-center mb-6" style="color:#1c4930"><?php echo htmlspecialchars($course['titre_cours']); ?></h1>
         
         <!-- Image du cours -->
         <div class="mb-6">
@@ -56,20 +103,27 @@ if (isset($_GET['id_cour'])) {
         
         <!-- Description du cours -->
         <div class="mb-6">
-            <h2 class="text-2xl font-semibold mb-2">Description</h2>
+            <h2 class="text-2xl font-bold mb-2" style="color:#1c4930">Description</h2>
             <p class="text-lg text-gray-700"><?php echo nl2br(htmlspecialchars($course['desc_cours'])); ?></p>
         </div>
 
+         <!-- Description du cours -->
+         <div class="mb-6">
+            <h2 class="text-2xl font-bold mb-2" style="color:#1c4930">Tags</h2>
+            <p class="text-lg text-gray-700"><?php  foreach ($tags as $tag) {
+        echo " - " . $tag['name_tags'];
+    }?></p>
+        </div>
         <!-- Contenu du cours en fonction du type -->
         <div class="mb-6">
             <?php if ($content_type === 'markdown'): ?>
-                <h2 class="text-2xl font-semibold mb-2">Contenu du cours (Markdown)</h2>
+                <h2 class="text-2xl font-bold mb-2" style="color:#1c4930">Contenu du cours</h2>
                 <div class="prose max-w-none">
                     <!-- Affichage du contenu Markdown converti en HTML -->
                     <?php echo $course['content_cours']; ?>
                 </div>
             <?php elseif ($content_type === 'video'): ?>
-                <h2 class="text-2xl font-semibold mb-2">Vidéo du cours</h2>
+                <h2 class="text-2xl font-semibold mb-2" style="color:#1c4930">Vidéo du cours</h2>
                 <div class="flex justify-center">
                     <video controls class="w-full max-w-3xl rounded-lg shadow-md">
                         <source src="<?php echo htmlspecialchars($course['content_cours']); ?>" type="video/mp4">
@@ -77,13 +131,6 @@ if (isset($_GET['id_cour'])) {
                     </video>
                 </div>
             <?php endif; ?>
-        </div>
-
-        <!-- Retour à la liste des cours -->
-        <div class="flex justify-center">
-            <a href="liste_cours.php" class="text-white bg-blue-600 px-6 py-2 rounded hover:bg-blue-700">
-                Retour à la liste des cours
-            </a>
         </div>
     </div>
 </body>
