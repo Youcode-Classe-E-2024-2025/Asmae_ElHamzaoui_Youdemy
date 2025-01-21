@@ -148,12 +148,12 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <a href="taches_view.php?id_cours=<?php echo $course['id_cours']; ?>">
                             <img class="rounded-t-lg" src="<?php echo htmlspecialchars($course['image_cours']); ?>" alt="" />
                         </a>
-                        <div class="p-5">
-                            <a href="#">
-                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style="color:#24508c"><?php echo htmlspecialchars($course['titre_cours']); ?></h5>
-                            </a>
+                        <div class="p-5">                        
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style="color:#1c4930"><?php echo htmlspecialchars($course['titre_cours']); ?></h5>
                             <p class="mb-3 font-bold text-gray-700 dark:text-gray-400"><?php echo htmlspecialchars($course['desc_cours']); ?></p> 
-                            <a href="detailCours.php?id_cour=<?php echo $course['id_cours']; ?>" style="color: rgb(185, 212, 243) ;background-color:#24508c;"  class="text-white font-bold p-2 px-2 rounded hover:bg-red-600 w-24 h-24">Voir détail</a>
+                            <div class="flex justify-center">
+                            <a href="detailCours.php?id_cour=<?php echo $course['id_cours']; ?>" style="color: rgb(178, 207, 198) ;background-color:#1c4930;"  class="text-white font-bold p-2 px-2 rounded hover:bg-red-600 w-24 h-12">Voir détail</a>
+                            </div>
                         </div>
                     </div>
                 <?php endforeach; ?>

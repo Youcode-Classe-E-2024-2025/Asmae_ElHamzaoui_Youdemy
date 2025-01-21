@@ -124,7 +124,7 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="flex justify-between items-center">
             <h2 class="text-3xl font-bold mb-4" style="color:#1c4933">Tout les cours</h2>
             <div class="flex justify-center gap-5 my-4">
-                <a href="sectionCours.php" style="color: #dadfdc ;background-color:#1c4933;" class="text-white py-2 px-3 rounded hover:bg-red-600">Mes cours</a>
+                <a href="sectionCours.php" style="color: #dadfdc ;background-color:#1c4933;" class="text-white font-bold py-2 px-3 rounded hover:bg-red-600">Mes cours</a>
             </div>
         </div>
 
@@ -138,12 +138,12 @@ $coursData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </a>
                         <div class="p-5">
                             <a href="#">
-                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style="color:#24508c"><?php echo htmlspecialchars($course['titre_cours']); ?></h5>
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style="color:#1c4930"><?php echo htmlspecialchars($course['titre_cours']); ?></h5>
                             </a>
                             <p class="mb-3 font-bold text-gray-700 dark:text-gray-400"><?php echo htmlspecialchars($course['desc_cours']); ?></p> 
-                            <form class="inline ml-1" action="../controller/courInscription.php" method="POST">
+                            <form class="inline ml-1 flex justify-center" action="../controller/courInscription.php" method="POST">
                                 <input type="hidden"  name="id_cours" value="<?php echo $course['id_cours']; ?>">
-                               <button type="submit" style="color: rgb(185, 212, 243) ;background-color:#24508c;"  class="text-white font-bold p-2 px-2 rounded hover:bg-red-600 w-24 h-24">Inscription</button>
+                               <button type="submit" style="color: rgb(187, 214, 211) ;background-color:#1c4930;"  class="text-white text-center font-bold px-2 rounded hover:bg-red-600 w-32 h-12">Inscription</button>
                             </form>
                         </div>
                     </div>

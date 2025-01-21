@@ -240,8 +240,8 @@ public function inscrireAuCours($db, $id_cours) {
     // Si ce n'est pas le cas, inscrire l'étudiant
     $stmt = $db->prepare('INSERT INTO inscription (id_user, id_cours) VALUES (?, ?)');
     $stmt->execute([$this->id_user, $id_cours]);
+    header('Location: ../view/sectionCours.php');
 
-    echo "Inscription réussie au cours avec succès.";
 }
 
 }
