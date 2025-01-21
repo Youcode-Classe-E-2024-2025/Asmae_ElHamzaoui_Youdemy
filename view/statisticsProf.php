@@ -39,21 +39,46 @@ $totalCours = $resultat['total_cours'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <style>
         body {
-            background-color: #f2f8ff;
+            background-color:  #dadfdc;
+        }
+         /* Style de la barre de navigation */
+         .navbar {
+            background-color:rgb(255, 255, 255);
+            padding: 1rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+        }
+
+        .navbar a:hover {
+            color: #f0a500;
         }
     </style>
 </head>
 <body>
-<header class="mx-4">
-    <div class="container flex justify-between items-center">
-        <img src="../images/logo.png" alt="Logo" class="h-24 w-32">
-        <div class="space-x-6 items-center mr-8">
-            <a href="projets_view.php" class="text-center hover:text-gray-400" style="color:#24508c">Retour aux projets</a>
+ <!-- Barre de navigation -->
+ <nav class="navbar">
+        <div class="flex items-center">
+            <img src="../assets/images/logo.png" alt="Logo" class="w-12">
         </div>
-    </div>               
-</header>
+        <div class="space-x-6 items-center">
+        <a href="projets_view.php" class="text-center font-bold hover:text-gray-400" style="color:#1c4930">Retour aux projets</a>
+        </div>
+    </nav>
 
-<h2 class="text-center mt-[30px]">Graphiques : Distribution des Tâches, Projets et Utilisateurs</h2>
+
+<h2 class="text-center font-bold mt-[30px]" style="color:#1c4930">Graphiques : Statistiques Cours et Etudiant</h2>
 <section class="flex mt-[80px] justify-center">
     <canvas id="pieChart" style="width:100%;max-width:600px;">
     </canvas>
@@ -79,7 +104,7 @@ $totalCours = $resultat['total_cours'];
         options: {
             title: {
                 display: true,
-                text: "Distribution des Tâches, Projets et Utilisateurs (Camembert)"
+                text: "Statistiques Cours et Etudiant (Camembert)"
             }
         }
     });
@@ -97,7 +122,7 @@ $totalCours = $resultat['total_cours'];
         options: {
             title: {
                 display: true,
-                text: "Distribution des Tâches, Projets et Utilisateurs (Barres)"
+                text: "Statistiques Cours et Etudiant (Barres)"
             },
             legend: { display: false },
             scales: {
