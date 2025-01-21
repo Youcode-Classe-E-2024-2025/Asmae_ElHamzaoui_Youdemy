@@ -46,16 +46,16 @@ $row = $stmt3->fetch();
 
 
 //  Le cours avec le plus d'étudiants inscrits
-$stmt4 = $pdo->prepare('SELECT co.id_cours, co.titre_cours, COUNT(i.id_user) AS nombre_etudiants
-FROM cours co
-JOIN inscription i ON co.id_cours = i.id_cours
-GROUP BY co.id_cours
-ORDER BY nombre_etudiants DESC
-LIMIT 1');
-$stmt4->execute();
-$resultat4 = $stmt4->fetch();
-$titreCours = $resultat4['titre_cours'];
-$nombreEtudiants = $resultat4['nombre_etudiants'];
+// $stmt4 = $pdo->prepare('SELECT co.id_cours, co.titre_cours, COUNT(i.id_user) AS nombre_etudiants
+// FROM cours co
+// JOIN inscription i ON co.id_cours = i.id_cours
+// GROUP BY co.id_cours
+// ORDER BY nombre_etudiants DESC
+// LIMIT 1');
+// $stmt4->execute();
+// $resultat4 = $stmt4->fetch();
+// $titreCours = $resultat4['titre_cours'];
+// $nombreEtudiants = $resultat4['nombre_etudiants'];
 
 
 //   Les Top 3 enseignants 
@@ -236,8 +236,8 @@ $resultats5 = $stmt5->fetchAll();
                                     <div class="rounded-full p-3 bg-yellow-600"><i class="fas fa-user-plus fa-2x fa-inverse"></i></div>
                                 </div>
                                 <div class="flex-1 text-right md:text-center">
-                                    <h2 class="font-bold uppercase text-gray-600"><?php echo 'Cours :' . $titreCours ;?> <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span></h2>
-                                    <?php echo 'total étudiant :' . $nombreEtudiants;?>
+                                    <h2 class="font-bold uppercase text-gray-600"><?php echo 'Cours :2'  ;?> <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span></h2>
+                                    <?php echo 'total étudiant : 3';?>
                                 </div>
                             </div>
                         </div>
@@ -333,7 +333,7 @@ $resultats5 = $stmt5->fetchAll();
                                                    <button type="submit" name="changer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir changer le statut de cet utilisateur ?')"
                                                     class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-user-check"></i></button>
                                             </form>
-                                            <form method="POST" action="../controllers/supprimer_user.php" class="inline ml-2">
+                                            <form method="POST" action="../controller/supprimerProf.php" class="inline ml-2">
                                                     <input type="hidden" name="user_id" value="<?php echo $prof['id_user']; ?>" />
                                                     <button type="submit" name="supprimer" style="background-color:rgb(185, 212, 243);"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')"
                                                      class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
@@ -387,7 +387,7 @@ $resultats5 = $stmt5->fetchAll();
                                                    <button type="submit" name="changer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir de déactiver ou activer cet utilisateur ?')"
                                                     class="text-white py-2 px-3 rounded hover:bg-red-600">Active</button>
                                             </form>
-                                            <form method="POST" action="../controller/supprimerUser.php?id_user=<?php echo $user['id_user']; ?>" class="inline ml-2">
+                                            <form method="POST" action="../controller/supprimerUser.php" class="inline ml-2">
                                                     <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>" />
                                                     <button type="submit" name="supprimer" style="background-color:rgb(185, 212, 243);" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')"
                                                      class="text-white py-2 px-3 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
