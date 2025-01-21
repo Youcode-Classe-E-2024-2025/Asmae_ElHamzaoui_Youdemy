@@ -1,29 +1,48 @@
-<?php 
+<?php
+// Connexion à la base de données
+require_once '../config/db.php';
 
-// require_once '../config/db.php';
-// require_once '../model/user.php';
+if (isset($_POST['user_id'])) {
+    // Récupérer l'ID de l'utilisateur à supprimer
+    $user_id = $_POST['user_id'];
 
+    // Commencer la transaction
+    $pdo->beginTransaction();
 
-// Vérifier si un ID d'utilisateur est passé dans la requête
-// if (isset($_GET['id_user']) && !empty($_GET['id_user'])) {
-//     $id_user = $_GET['id_user'];
+    try {
+        // Supprimer l'utilisateur dans la table des inscriptions
+        $stmt = $pdo->prepare("DELETE FROM inscription WHERE id_user = ?");
+        $stmt->execute([$user_id]);
 
-//     // Créer une instance de l'utilisateur avec l'ID spécifique
-//     $user = new User($id_user);
+        // Supprimer tous les cours associés à l'utilisateur
+        $stmt = $pdo->prepare("DELETE FROM cours WHERE id_user = ?");
+        $stmt->execute([$user_id]);
 
-//     // Appeler la méthode pour supprimer l'utilisateur
-//     $result = $user->deleteUser($db);
+        // Supprimer tous les tags associés aux cours de cet utilisateur
+        $stmt = $pdo->prepare("DELETE FROM cours_tags WHERE id_cours IN (SELECT id_cours FROM cours WHERE id_user = ?)");
+        $stmt->execute([$user_id]);
 
-//     // Rediriger ou afficher un message en fonction du résultat
-//     if ($result === "Utilisateur supprimé avec succès.") {
-//         // Rediriger vers la liste des utilisateurs ou afficher un message de succès
-//         header('Location: users_list.php');  // Changez ceci en fonction de l'endroit où vous voulez rediriger
-//         exit();
-//     } else {
-//         // Afficher un message d'erreur
-//         echo "Erreur : " . $result;
-//     }
-// } else {
-//     echo "ID utilisateur manquant.";
-// }
+        // Supprimer l'utilisateur de la table des utilisateurs
+        $stmt = $pdo->prepare("DELETE FROM user WHERE id_user = ?");
+        $stmt->execute([$user_id]);
+
+        // Valider la transaction
+        $pdo->commit();
+
+        // Rediriger l'utilisateur vers la liste des utilisateurs ou afficher un message de succès
+        header('Location: ../view/AdminDashboard.php');
+        exit();
+
+    } catch (Exception $e) {
+        // Annuler la transaction en cas d'erreur
+        $conn->rollBack();
+
+        // Afficher un message d'erreur
+        echo "Erreur : " . $e->getMessage();
+    }
+} else {
+    // Si l'ID de l'utilisateur n'est pas passé, rediriger ou afficher un message d'erreur
+    echo "Aucun utilisateur spécifié pour la suppression.";
+}
 ?>
+
