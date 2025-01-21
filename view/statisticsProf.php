@@ -68,12 +68,12 @@ $totalCours = $resultat['total_cours'];
 </head>
 <body>
  <!-- Barre de navigation -->
- <nav class="navbar">
+    <nav class="navbar">
         <div class="flex items-center">
             <img src="../assets/images/logo.png" alt="Logo" class="w-12">
         </div>
         <div class="space-x-6 items-center">
-        <a href="projets_view.php" class="text-center font-bold hover:text-gray-400" style="color:#1c4930">Retour aux projets</a>
+        <a href="teacherInterface.php" class="text-center font-bold hover:text-gray-400" style="color:#1c4930">Retour aux cours</a>
         </div>
     </nav>
 
